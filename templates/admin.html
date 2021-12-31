@@ -1,0 +1,131 @@
+{% extends 'doctor.html' %}
+
+<!-- Nurse part -->
+{% block body %}
+
+<div class="content">
+  <nav class="sidebar">
+    <ul class="side-nav">
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-doctor"
+          class="side-nav__link"
+          id="1"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/doctor-svgrepo-com.svg"
+            alt="Doctor-image"
+          />
+          <span>Add Doctor</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-nurse"
+          class="side-nav__link"
+          id="2"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/nurse-svgrepo-com.svg"
+            alt="Nurse-image"
+          />
+
+          <span>Add Nurse</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-technician"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Add Technician</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-machine"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/mri-patient-svgrepo-com.svg"
+            alt="Machine-image"
+          />
+          <span>Add Machine</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-room"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/hospital-svgrepo-com.svg"
+            alt="room-image"
+          />
+          <span>Add room</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <form id="form" class="form">
+      <h2>Add doctor</h2>
+
+      <div class="form-control">
+        <label for="Doctor ID">ID</label>
+        <input type="tel" name="id" placeholder="Enter doctor ID" />
+      </div>
+      <div class="form-control">
+        <div class="name">
+          <label for="fname">First name:</label>
+          <input
+            class="fname"
+            type="text"
+            name="fname"
+            placeholder="Enter First name"
+          />
+          <label for="mInt">Middle intial:</label>
+          <input
+            class="minit"
+            type="text"
+            name="minit"
+            placeholder="Enter middle initial"
+          />
+          <label for="Lname">Last Name:</label>
+          <input
+            class="lname"
+            type="text"
+            name="Lname"
+            placeholder="Enter Last Name"
+          />
+        </div>
+      </div>
+      <div class="form-control">
+        <label for="doctor SSN">SSN:</label>
+        <input type="tel" name="SSN" placeholder="Enter doctor SSN" />
+      </div>
+      <div class="btn-box">
+        <button class="btn" type="submit">Add doctor</button>
+        <!-- <a class="btn" type="button" style="text-align: center"
+          >View Patient list</a
+        > -->
+      </div>
+    </form>
+  </main>
+  {% endblock %}
+
+  <!-- Nurse part -->
+</div>

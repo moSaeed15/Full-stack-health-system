@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
+    rel="stylesheet"
+  />  
+  <link rel="stylesheet" href="../static/styles/main.css">
+    <title>Radiology Department</title>
+</head>
+
+<body>
+
+{% include 'includes/_navbar.html' %}
+{% block body %}
+<div class="content">
+  <nav class="sidebar">
+<ul class="side-nav">
+  <li class="side-nav__item ">
+    <a href="http://127.0.0.1:5000/doctor" class="side-nav__link  side-nav__item--active" id='1'>
+    <img class='side-nav__img' src="../static/doctor-svgrepo-com.svg" alt="Doctor-image">
+      <span>Shift report</span>
+    </a>
+  </li>
+  <li class="side-nav__item">
+    <a href="http://127.0.0.1:5000/nurse" class="side-nav__link" id='2'>
+      <img  class='side-nav__img' src="../static/nurse-svgrepo-com.svg" alt="Nurse-image">
+
+      <span>View nurse</span>
+    </a>
+  </li>
+  <li class="side-nav__item ">
+    <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id='3'>
+      <img class='side-nav__img' src="../static/patient-svgrepo-com.svg" alt="Patient-image">
+
+      <span>View patient list</span>
+    </a>
+  </li>
+  <li class="side-nav__item">
+    <a href="http://127.0.0.1:5000/technician" class="side-nav__link" id='4'>
+      <img  class='side-nav__img' src="../static/technician-with-helmet-svgrepo-com.svg" alt="technician-image">
+      <span>Technician</span>
+    </a>
+  </li>
+ 
+</ul>
+  </nav>
+
+
+ <main class="main">
+    <form  action="" method="post" id="form" class="form">
+      <h2>Doctor</h2>
+  
+      <div class="form-control">
+        <label for="Nurse ID">Shift start</label>
+        <input type="tel" name="nurse ID" placeholder="Enter shift start" />
+      </div>
+      <div class="form-control">
+        <label for="Patient ID">Shift end</label>
+        <input type="tel" name="patient ID" placeholder="Enter shift end" />
+      </div>
+      <div class="btn-box">
+      <button class="btn"  type="submit">Submit</button>
+      <a class="btn" type="button" style="text-align: center;">View</a>
+    </div>
+    </form>
+ </main>
+ {% endblock %}
+
+</div>
+
+</div>
+<script src="../index.js"></script>
+</body>
+</html>
