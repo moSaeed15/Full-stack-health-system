@@ -40,6 +40,19 @@ def addnurse():
 def addDoctor():
     return render_template('addDoctor.html')    
 
+@app.route('/admin/add-machine')
+def addmachine():
+    return render_template('addmachine.html')    
+
+@app.route('/admin/add-room')
+def addroom():
+    return render_template('addroom.html')    
+
+@app.route('/admin/add-technician')
+def addtechnician():
+    return render_template('addtechnician.html')    
+
+
 if __name__=='__main__':
     app.run(debug=True)
 

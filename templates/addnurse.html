@@ -1,91 +1,6 @@
 {% extends 'admin.html' %} {% block body %}
 <div class="content">
-  <nav class="sidebar">
-    <ul class="side-nav">
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/admin/add-doctor"
-          class="side-nav__link"
-          id="1"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/doctor-svgrepo-com.svg"
-            alt="Doctor-image"
-          />
-          <span>Add doctor</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/admin/add-nurse"
-          class="side-nav__link"
-          id="2"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/nurse-svgrepo-com.svg"
-            alt="Nurse-image"
-          />
-
-          <span>Add Nurse</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id="3">
-          <img
-            class="side-nav__img"
-            src="../static/patient-svgrepo-com.svg"
-            alt="Patient-image"
-          />
-
-          <span>Add Patient</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/technician"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/technician-with-helmet-svgrepo-com.svg"
-            alt="technician-image"
-          />
-          <span>Add Technician</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/technician"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/mri-patient-svgrepo-com.svg"
-            alt="technician-image"
-          />
-          <span>Add Machine</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/technician"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/hospital-svgrepo-com.svg"
-            alt="technician-image"
-          />
-          <span>Add room</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  {% include 'includes/_adminsidebar.html' %}
   <main class="main">
     <form id="form" class="form">
       <h2>Add Nurse</h2>
@@ -135,7 +50,7 @@
         <label for="nurse email">email:</label>
         <input type="email" name="npnumber" placeholder="Enter nurse email" />
       </div>
-      <div class="btn-box">
+      <div class="form-control">
         <button class="btn" type="submit">Add Nurse</button>
       </div>
     </form>
