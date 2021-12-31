@@ -23,21 +23,21 @@
   <li class="side-nav__item ">
     <a href="http://127.0.0.1:5000/doctor" class="side-nav__link  side-nav__item--active" id='1'>
     <img class='side-nav__img' src="../static/doctor-svgrepo-com.svg" alt="Doctor-image">
-      <span>Doctor</span>
+      <span>Shift report</span>
     </a>
   </li>
   <li class="side-nav__item">
     <a href="http://127.0.0.1:5000/nurse" class="side-nav__link" id='2'>
       <img  class='side-nav__img' src="../static/nurse-svgrepo-com.svg" alt="Nurse-image">
 
-      <span>Nurse</span>
+      <span>View nurse</span>
     </a>
   </li>
   <li class="side-nav__item ">
     <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id='3'>
       <img class='side-nav__img' src="../static/patient-svgrepo-com.svg" alt="Patient-image">
 
-      <span>Patient</span>
+      <span>View patient list</span>
     </a>
   </li>
   <li class="side-nav__item">
@@ -46,18 +46,7 @@
       <span>Technician</span>
     </a>
   </li>
-  <li class="side-nav__item">
-    <a href="http://127.0.0.1:5000/machine" class="side-nav__link" id='6'>
-      <img  class='side-nav__img' src="../static/mri-patient-svgrepo-com.svg" alt="Machine-image">
-      <span>Machines</span>
-    </a>
-  </li>
-  <li class="side-nav__item">
-    <a href="http://127.0.0.1:5000/room" class="side-nav__link" id='7'>
-      <img  class='side-nav__img' src="../static/hospital-svgrepo-com.svg" alt="Rooms-image">
-      <span>Rooms</span>
-    </a>
-  </li>
+ 
 </ul>
   </nav>
 
@@ -67,16 +56,12 @@
       <h2>Doctor</h2>
   
       <div class="form-control">
-        <label for="Nurse ID">Nurse ID</label>
-        <input type="tel" name="nurse ID" placeholder="Enter Nurse ID" />
+        <label for="Nurse ID">Shift start</label>
+        <input type="tel" name="nurse ID" placeholder="Enter shift start" />
       </div>
       <div class="form-control">
-        <label for="Patient ID">Patient ID</label>
-        <input type="tel" name="patient ID" placeholder="Enter patient ID" />
-      </div>
-      <div class="form-control">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter password" />
+        <label for="Patient ID">Shift end</label>
+        <input type="tel" name="patient ID" placeholder="Enter shift end" />
       </div>
       <div class="btn-box">
       <button class="btn"  type="submit">Submit</button>

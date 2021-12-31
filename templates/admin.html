@@ -7,19 +7,23 @@
   <nav class="sidebar">
     <ul class="side-nav">
       <li class="side-nav__item">
-        <a href="http://127.0.0.1:5000/doctor" class="side-nav__link" id="1">
+        <a
+          href="http://127.0.0.1:5000/admin/add-doctor"
+          class="side-nav__link"
+          id="1"
+        >
           <img
             class="side-nav__img"
             src="../static/doctor-svgrepo-com.svg"
             alt="Doctor-image"
           />
-          <span>Shift report</span>
+          <span>Add Doctor</span>
         </a>
       </li>
       <li class="side-nav__item">
         <a
-          href="http://127.0.0.1:5000/nurse"
-          class="side-nav__link side-nav__item--active"
+          href="http://127.0.0.1:5000/admin/add-nurse"
+          class="side-nav__link"
           id="2"
         >
           <img
@@ -28,7 +32,7 @@
             alt="Nurse-image"
           />
 
-          <span>View patient list</span>
+          <span>Add Nurse</span>
         </a>
       </li>
       <li class="side-nav__item">
@@ -39,7 +43,7 @@
             alt="Patient-image"
           />
 
-          <span>Patient record</span>
+          <span>Add Patient</span>
         </a>
       </li>
       <li class="side-nav__item">
@@ -53,7 +57,35 @@
             src="../static/technician-with-helmet-svgrepo-com.svg"
             alt="technician-image"
           />
-          <span>Function</span>
+          <span>Add Technician</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/technician"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/mri-patient-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Add Machine</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/technician"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/hospital-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Add room</span>
         </a>
       </li>
     </ul>
@@ -61,11 +93,11 @@
 
   <main class="main">
     <form id="form" class="form">
-      <h2>Nurse</h2>
+      <h2>Add doctor</h2>
 
       <div class="form-control">
-        <label for="nurse ID">ID</label>
-        <input type="tel" name="id" placeholder="Enter patient ID" />
+        <label for="Doctor ID">ID</label>
+        <input type="tel" name="id" placeholder="Enter doctor ID" />
       </div>
       <div class="form-control">
         <div class="name">
@@ -93,18 +125,14 @@
         </div>
       </div>
       <div class="form-control">
-        <label for="patient SSN">SSN:</label>
-        <input type="tel" name="SSN" placeholder="Enter patient SSN" />
-      </div>
-      <div class="form-control">
-        <label for="patient room">Room:</label>
-        <input type="tel" name="room" placeholder="Enter patient Room" />
+        <label for="doctor SSN">SSN:</label>
+        <input type="tel" name="SSN" placeholder="Enter doctor SSN" />
       </div>
       <div class="btn-box">
-        <button class="btn" type="submit">Add Patient</button>
-        <a class="btn" type="button" style="text-align: center"
+        <button class="btn" type="submit">Add doctor</button>
+        <!-- <a class="btn" type="button" style="text-align: center"
           >View Patient list</a
-        >
+        > -->
       </div>
     </form>
   </main>
