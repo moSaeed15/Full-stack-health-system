@@ -73,6 +73,14 @@ def nreport():
 def nmachine():
     return render_template('nmachine.html') 
 
+@app.route('/patient/patient-scan-history')
+def phistory():
+    return render_template('phistory.html') 
+    
+@app.route('/patient/view-reservation')
+def preservation():
+    return render_template('preservation.html') 
+
 if __name__=='__main__':
     app.run(debug=True)
 

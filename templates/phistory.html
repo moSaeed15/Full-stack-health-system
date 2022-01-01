@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/styles/main.css" />
+    <title>Radiology Department</title>
+  </head>
+  <body>
+    {% include 'includes/_navbar.html' %}
+    <div class="content">
+      <nav class="sidebar">
+        <ul class="side-nav">
+          <li class="side-nav__item">
+            <a
+              href="http://127.0.0.1:5000/patient"
+              class="side-nav__link"
+              id="1"
+            >
+              <img
+                class="side-nav__img"
+                src="../static/calendar.svg"
+                alt="calendar-image"
+              />
+              <span>Reserve scan</span>
+            </a>
+          </li>
+          <li class="side-nav__item">
+            <a
+              href="http://127.0.0.1:5000/patient/patient-scan-history"
+              class="side-nav__link side-nav__item--active"
+              id="3"
+            >
+              <img
+                class="side-nav__img"
+                src="../static/medical-history.svg"
+                alt="history-image"
+              />
+
+              <span>View scan history</span>
+            </a>
+          </li>
+          <li class="side-nav__item">
+            <a
+              href="http://127.0.0.1:5000/patient/view-reservation"
+              class="side-nav__link"
+              id="4"
+            >
+              <img
+                class="side-nav__img"
+                src="../static/reservation-view.svg"
+                alt="report-image"
+              />
+              <span>View reservations:</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <main class="main">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Scan date</th>
+              <th>Scan type</th>
+              <th>Scan room</th>
+              <th>Scan result</th>
+              <th>Scan Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>15/1/2020</td>
+              <td>X-Ray</td>
+              <td>1</td>
+              <td>Cancer el 7amdallah</td>
+              <td>3 PM</td>
+            </tr>
+            <!-- <tr>
+              <td>2</td>
+              <td>Ahmed</td>
+              <td>E</td>
+              <td>gamal</td>
+              <td>3</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </body>
+</html>
