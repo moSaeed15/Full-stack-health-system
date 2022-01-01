@@ -1,0 +1,114 @@
+{% extends 'doctor.html' %}
+
+<!-- Nurse part -->
+{% block body %}
+
+<div class="content">
+  <nav class="sidebar">
+    <ul class="side-nav">
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/doctor" class="side-nav__link" id="1">
+          <img
+            class="side-nav__img"
+            src="../static/doctor-svgrepo-com.svg"
+            alt="Doctor-image"
+          />
+          <span>Shift report</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/nurse"
+          class="side-nav__link side-nav__item--active"
+          id="2"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/nurse-svgrepo-com.svg"
+            alt="Nurse-image"
+          />
+
+          <span>View patient list</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id="3">
+          <img
+            class="side-nav__img"
+            src="../static/patient-svgrepo-com.svg"
+            alt="Patient-image"
+          />
+
+          <span>Patient record</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/technician"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Function</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <form id="form" class="form">
+      <h2>Nurse</h2>
+
+      <div class="form-control">
+        <label for="nurse ID">ID</label>
+        <input type="tel" name="id" placeholder="Enter patient ID" />
+      </div>
+      <div class="form-control">
+        <div class="name">
+          <label for="fname">First name:</label>
+          <input
+            class="fname"
+            type="text"
+            name="fname"
+            placeholder="Enter First name"
+          />
+          <label for="mInt">Middle intial:</label>
+          <input
+            class="minit"
+            type="text"
+            name="minit"
+            placeholder="Enter middle initial"
+          />
+          <label for="Lname">Last Name:</label>
+          <input
+            class="lname"
+            type="text"
+            name="Lname"
+            placeholder="Enter Last Name"
+          />
+        </div>
+      </div>
+      <div class="form-control">
+        <label for="patient SSN">SSN:</label>
+        <input type="tel" name="SSN" placeholder="Enter patient SSN" />
+      </div>
+      <div class="form-control">
+        <label for="patient room">Room:</label>
+        <input type="tel" name="room" placeholder="Enter patient Room" />
+      </div>
+      <div class="btn-box">
+        <button class="btn" type="submit">Add Patient</button>
+        <a class="btn" type="button" style="text-align: center"
+          >View Patient list</a
+        >
+      </div>
+    </form>
+  </main>
+  {% endblock %}
+
+  <!-- Nurse part -->
+</div>

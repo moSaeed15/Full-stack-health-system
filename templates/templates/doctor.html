@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
+    rel="stylesheet"
+  />  
+  <link rel="stylesheet" href="../static/styles/main.css">
+    <title>Radiology Department</title>
+</head>
+
+<body>
+
+{% include 'includes/_navbar.html' %}
+{% block body %}
+<div class="content">
+  {% include 'includes/_doctorsidebar.html' %}
+
+
+ <main class="main">
+    <form  action="" method="post" id="form" class="form">
+      <h2>Doctor</h2>
+  
+      <div class="form-control">
+        <label for="Nurse ID">Shift start</label>
+        <input type="tel" name="nurse ID" placeholder="Enter shift start" />
+        <label for="Patient ID">Shift end</label>
+        <input type="tel" name="patient ID" placeholder="Enter shift end" />
+      </div>
+      <div class="form-control">
+      <button class="btn"  type="submit">Submit</button>
+      <!-- <a class="btn" type="button" style="text-align: center;">View</a> -->
+    </div>
+    </form>
+ </main>
+ {% endblock %}
+
+</div>
+
+</div>
+<script src="../index.js"></script>
+</body>
+</html>
