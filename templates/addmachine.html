@@ -1,0 +1,32 @@
+{% extends 'admin.html' %} {% block body %}
+<div class="content">
+  {% include 'includes/_adminsidebar.html' %}
+  <main class="main">
+    <form id="form" class="form">
+      <h2>Add Machine</h2>
+
+      <div class="form-control">
+        <label for="Doctor machine">Type:</label>
+        <input type="tel" name="type" placeholder=" Machine type" />
+        <label for="machine model number">Model number:</label>
+        <input type="text" name="mnumber" placeholder=" Model number" />
+      </div>
+
+      <div class="form-control">
+        <label for="machine check day">Check day:</label>
+        <input type="tel" name="cday" placeholder="Machine Check day" />
+        <label for="machine purchase date"> Purchase date:</label>
+        <input
+          type="date"
+          name="purdate"
+          placeholder=" Machine purchase date"
+        />
+      </div>
+      <div class="form-control">
+        <button class="btn" type="submit">Add machine</button>
+      </div>
+    </form>
+  </main>
+
+  {% endblock %}
+</div>

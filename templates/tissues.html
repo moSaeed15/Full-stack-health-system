@@ -6,7 +6,7 @@
 <div class="content">
   <nav class="sidebar">
     <ul class="side-nav">
-      <li class="side-nav__item side-nav__item--active">
+      <li class="side-nav__item">
         <a href="http://127.0.0.1:5000/technician" class="side-nav__link">
           <img
             class="side-nav__img"
@@ -46,7 +46,7 @@
       <li class="side-nav__item">
         <a
           href="http://127.0.0.1:5000/technician/issues"
-          class="side-nav__link"
+          class="side-nav__link side-nav__item--active"
         >
           <img
             class="side-nav__img"
@@ -60,20 +60,26 @@
   </nav>
 
   <main class="main">
-    <form action="" method="post" id="form" class="form">
-      <h2>Technician shift report</h2>
-
-      <div class="form-control">
-        <label for="shift start">Shift start</label>
-        <input type="tel" name="shift start" placeholder="Enter shift start" />
-        <label for="Patient ID">Shift end</label>
-        <input type="tel" name="shift end" placeholder="Enter shift end" />
-      </div>
-      <div class="form-control">
-        <button class="btn" type="submit">Submit</button>
-        <!-- <a class="btn" type="button" style="text-align: center;">View</a> -->
-      </div>
-    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Machine ID</th>
+          <th>Machine type</th>
+          <th>Machine model number</th>
+          <th>Issue reported</th>
+          <th>Room ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>MRI</td>
+          <td>X2B</td>
+          <td>Broken Screen</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
   </main>
   {% endblock %}
 </div>

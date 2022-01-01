@@ -59,40 +59,6 @@ def dview():
 @app.route('/doctor/report')
 def dreport():
     return render_template('dreport.html') 
-
-
-@app.route('/nurse/patient-list')
-def nview():
-    return render_template('nview.html') 
-    
-@app.route('/nurse/report-scan')
-def nreport():
-    return render_template('nreport.html')
-        
-@app.route('/nurse/report-machine')
-def nmachine():
-    return render_template('nmachine.html') 
-
-@app.route('/patient/patient-scan-history')
-def phistory():
-    return render_template('phistory.html') 
-    
-@app.route('/patient/view-reservation')
-def preservation():
-    return render_template('preservation.html') 
-
-@app.route('/technician/maintenance')
-def tmaintenance():
-    return render_template('tmain.html')
-
-@app.route('/technician/checks')
-def tchecks():
-    return render_template('tchecks.html')     
-
-@app.route('/technician/issues')
-def tissues():
-    return render_template('tissues.html') 
-
 if __name__=='__main__':
     app.run(debug=True)
 
