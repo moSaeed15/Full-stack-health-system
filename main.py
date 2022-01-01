@@ -81,6 +81,18 @@ def phistory():
 def preservation():
     return render_template('preservation.html') 
 
+@app.route('/technician/maintenance')
+def tmaintenance():
+    return render_template('tmain.html')
+
+@app.route('/technician/checks')
+def tchecks():
+    return render_template('tchecks.html')     
+
+@app.route('/technician/issues')
+def tissues():
+    return render_template('tissues.html') 
+
 if __name__=='__main__':
     app.run(debug=True)
 

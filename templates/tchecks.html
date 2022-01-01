@@ -6,7 +6,7 @@
 <div class="content">
   <nav class="sidebar">
     <ul class="side-nav">
-      <li class="side-nav__item side-nav__item--active">
+      <li class="side-nav__item">
         <a href="http://127.0.0.1:5000/technician" class="side-nav__link">
           <img
             class="side-nav__img"
@@ -33,7 +33,7 @@
       <li class="side-nav__item">
         <a
           href="http://127.0.0.1:5000/technician/checks"
-          class="side-nav__link"
+          class="side-nav__link side-nav__item--active"
         >
           <img
             class="side-nav__img"
@@ -61,17 +61,22 @@
 
   <main class="main">
     <form action="" method="post" id="form" class="form">
-      <h2>Technician shift report</h2>
+      <h2>Report Check</h2>
 
       <div class="form-control">
-        <label for="shift start">Shift start</label>
-        <input type="tel" name="shift start" placeholder="Enter shift start" />
-        <label for="Patient ID">Shift end</label>
-        <input type="tel" name="shift end" placeholder="Enter shift end" />
+        <label for="check date">Check date</label>
+        <input type="date" name="Cdate" placeholder="Check date" />
+        <label for="Machine ID">Machine ID:</label>
+        <input type="tel" name="MID" placeholder="Enter Machine ID" />
       </div>
       <div class="form-control">
-        <button class="btn" type="submit">Submit</button>
-        <!-- <a class="btn" type="button" style="text-align: center;">View</a> -->
+        <label for="Check time">Check time</label>
+        <input type="time" name="Ctime" placeholder="Check time" />
+        <label for="Machine type">Machine type:</label>
+        <input type="text" name="Mtype" placeholder="Enter Machine type" />
+      </div>
+      <div class="form-control">
+        <button class="btn" type="submit">Report check</button>
       </div>
     </form>
   </main>
