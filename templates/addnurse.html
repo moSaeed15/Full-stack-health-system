@@ -1,133 +1,57 @@
 {% extends 'admin.html' %} {% block body %}
 <div class="content">
-  <nav class="sidebar">
-    <ul class="side-nav">
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/admin/add-doctor"
-          class="side-nav__link"
-          id="1"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/doctor-svgrepo-com.svg"
-            alt="Doctor-image"
-          />
-          <span>Add doctor</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/admin/add-nurse"
-          class="side-nav__link"
-          id="2"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/nurse-svgrepo-com.svg"
-            alt="Nurse-image"
-          />
-
-          <span>Add Nurse</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id="3">
-          <img
-            class="side-nav__img"
-            src="../static/patient-svgrepo-com.svg"
-            alt="Patient-image"
-          />
-
-          <span>Add Patient</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/technician"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/technician-with-helmet-svgrepo-com.svg"
-            alt="technician-image"
-          />
-          <span>Add Technician</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/technician"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/mri-patient-svgrepo-com.svg"
-            alt="technician-image"
-          />
-          <span>Add Machine</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/technician"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/hospital-svgrepo-com.svg"
-            alt="technician-image"
-          />
-          <span>Add room</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  {% include 'includes/_adminsidebar.html' %}
   <main class="main">
     <form id="form" class="form">
       <h2>Add Nurse</h2>
-
-      <div class="form-control">
-        <label for="Nurse ID">ID</label>
-        <input type="tel" name="id" placeholder="Enter nurse ID" />
-      </div>
-      <div class="form-control">
-        <div class="name">
-          <label for="fname">First name:</label>
-          <input
-            class="fname"
-            type="text"
-            name="fname"
-            placeholder="Enter First name"
-          />
-          <label for="mInt">Middle intial:</label>
-          <input
-            class="minit"
-            type="text"
-            name="minit"
-            placeholder="Enter middle initial"
-          />
-          <label for="Lname">Last Name:</label>
-          <input
-            class="lname"
-            type="text"
-            name="Lname"
-            placeholder="Enter Last Name"
-          />
-        </div>
+      <div class="name">
+        <label for="fname">First name:</label>
+        <input
+          class="fname"
+          type="text"
+          name="fname"
+          placeholder="Enter First name"
+        />
+        <label for="mInt">Middle intial:</label>
+        <input
+          class="minit"
+          type="text"
+          name="minit"
+          placeholder="Enter middle initial"
+        />
+        <label for="Lname">Last Name:</label>
+        <input
+          class="lname"
+          type="text"
+          name="Lname"
+          placeholder="Enter Last Name"
+        />
       </div>
       <div class="form-control">
         <label for="nurse SSN">SSN:</label>
         <input type="tel" name="SSN" placeholder="Enter nurse SSN" />
+        <label for="nurse qualfications">Qualfications:</label>
+        <input type="text" name="SSN" placeholder="Enter nurse qualfications" />
       </div>
-      <div class="btn-box">
+      <div class="form-control">
+        <label for="nurse SSN">Bdate:</label>
+        <input type="date" name="nBdate" placeholder="Enter nurse Birth date" />
+        <label for="nurse Address">Address:</label>
+        <input type="text" name="SSN" placeholder="Enter nurse address" />
+      </div>
+
+      <div class="form-control">
+        <label for="nurse phone number">SSN:</label>
+        <input
+          type="tel"
+          name="npnumber"
+          placeholder="Enter nurse phone number"
+        />
+        <label for="nurse email">email:</label>
+        <input type="email" name="npnumber" placeholder="Enter nurse email" />
+      </div>
+      <div class="form-control">
         <button class="btn" type="submit">Add Nurse</button>
-        <!-- <a class="btn" type="button" style="text-align: center"
-          >View Patient list</a
-        > -->
       </div>
     </form>
   </main>

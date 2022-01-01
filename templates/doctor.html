@@ -18,37 +18,7 @@
 {% include 'includes/_navbar.html' %}
 {% block body %}
 <div class="content">
-  <nav class="sidebar">
-<ul class="side-nav">
-  <li class="side-nav__item ">
-    <a href="http://127.0.0.1:5000/doctor" class="side-nav__link  side-nav__item--active" id='1'>
-    <img class='side-nav__img' src="../static/doctor-svgrepo-com.svg" alt="Doctor-image">
-      <span>Shift report</span>
-    </a>
-  </li>
-  <li class="side-nav__item">
-    <a href="http://127.0.0.1:5000/nurse" class="side-nav__link" id='2'>
-      <img  class='side-nav__img' src="../static/nurse-svgrepo-com.svg" alt="Nurse-image">
-
-      <span>View nurse</span>
-    </a>
-  </li>
-  <li class="side-nav__item ">
-    <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id='3'>
-      <img class='side-nav__img' src="../static/patient-svgrepo-com.svg" alt="Patient-image">
-
-      <span>View patient list</span>
-    </a>
-  </li>
-  <li class="side-nav__item">
-    <a href="http://127.0.0.1:5000/technician" class="side-nav__link" id='4'>
-      <img  class='side-nav__img' src="../static/technician-with-helmet-svgrepo-com.svg" alt="technician-image">
-      <span>Technician</span>
-    </a>
-  </li>
- 
-</ul>
-  </nav>
+  {% include 'includes/_doctorsidebar.html' %}
 
 
  <main class="main">
@@ -56,16 +26,14 @@
       <h2>Doctor</h2>
   
       <div class="form-control">
-        <label for="Nurse ID">Shift start</label>
-        <input type="tel" name="nurse ID" placeholder="Enter shift start" />
+        <label for="shift start">Shift start</label>
+        <input type="tel" name="shift start" placeholder="Enter shift start" />
+        <label for="Patient ID">Shift end</label>
+        <input type="tel" name="shift end" placeholder="Enter shift end" />
       </div>
       <div class="form-control">
-        <label for="Patient ID">Shift end</label>
-        <input type="tel" name="patient ID" placeholder="Enter shift end" />
-      </div>
-      <div class="btn-box">
       <button class="btn"  type="submit">Submit</button>
-      <a class="btn" type="button" style="text-align: center;">View</a>
+      <!-- <a class="btn" type="button" style="text-align: center;">View</a> -->
     </div>
     </form>
  </main>

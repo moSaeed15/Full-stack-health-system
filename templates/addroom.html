@@ -1,0 +1,24 @@
+{% extends 'admin.html' %} {% block body %}
+<div class="content">
+  {% include 'includes/_adminsidebar.html' %}
+  <main class="main">
+    <form id="form" class="form">
+      <h2>Add Machine</h2>
+
+      <div class="form-control">
+        <label for="room name">Room name:</label>
+        <input
+          style="width: 100%"
+          type="text"
+          name="rname"
+          placeholder="Room name"
+        />
+      </div>
+      <div class="form-control">
+        <button class="btn" type="submit">Add machine</button>
+      </div>
+    </form>
+  </main>
+
+  {% endblock %}
+</div>

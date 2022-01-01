@@ -1,12 +1,9 @@
-{% extends 'doctor.html' %}
-
-<!-- Nurse part -->
-{% block body %}
+{% extends 'doctor.html' %} {% block body %}
 
 <div class="content">
   <nav class="sidebar">
     <ul class="side-nav">
-      <li class="side-nav__item side-nav__item--active">
+      <li class="side-nav__item">
         <a href="http://127.0.0.1:5000/nurse" class="side-nav__link" id="1">
           <img
             class="side-nav__img"
@@ -31,7 +28,7 @@
           <span>View patient list</span>
         </a>
       </li>
-      <li class="side-nav__item">
+      <li class="side-nav__item side-nav__item--active">
         <a
           href="http://127.0.0.1:5000/nurse/report-scan"
           class="side-nav__link"
@@ -63,18 +60,40 @@
   </nav>
 
   <main class="main">
-    <form action="" method="post" id="form" class="form">
-      <h2>Nurse shift report</h2>
+    <form id="form" class="form">
+      <h2>Case Report</h2>
+      <div class="name">
+        <label for="fname"> Patient Fname:</label>
+        <input
+          class="fname"
+          type="text"
+          name="fname"
+          placeholder=" First name"
+        />
+        <label for="mInt">Patient MI:</label>
+        <input
+          class="minit"
+          type="text"
+          name="minit"
+          placeholder=" Middle initial"
+        />
+        <label for="Lname">Patient Lname:</label>
+        <input
+          class="lname"
+          type="text"
+          name="Lname"
+          placeholder=" Last Name"
+        />
+      </div>
 
       <div class="form-control">
-        <label for="shift start">Shift start</label>
-        <input type="tel" name="shift start" placeholder="Enter shift start" />
-        <label for="Patient ID">Shift end</label>
-        <input type="tel" name="shift end" placeholder="Enter shift end" />
+        <label for="doctor bdate">Patient ID:</label>
+        <input type="tel" name="PID" placeholder=" Patient ID" />
+        <label for="patient diagnosis">Patient diagnosis:</label>
+        <input type="text" name="Pdiagnosis" placeholder="Patient diagnosis" />
       </div>
       <div class="form-control">
-        <button class="btn" type="submit">Submit</button>
-        <!-- <a class="btn" type="button" style="text-align: center;">View</a> -->
+        <button class="btn" type="submit">Case Report</button>
       </div>
     </form>
   </main>

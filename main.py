@@ -40,6 +40,39 @@ def addnurse():
 def addDoctor():
     return render_template('addDoctor.html')    
 
+@app.route('/admin/add-machine')
+def addmachine():
+    return render_template('addmachine.html')    
+
+@app.route('/admin/add-room')
+def addroom():
+    return render_template('addroom.html')    
+
+@app.route('/admin/add-technician')
+def addtechnician():
+    return render_template('addtechnician.html')    
+
+@app.route('/doctor/patient-list')
+def dview():
+    return render_template('dview.html')    
+
+@app.route('/doctor/report')
+def dreport():
+    return render_template('dreport.html') 
+
+
+@app.route('/nurse/patient-list')
+def nview():
+    return render_template('nview.html') 
+    
+@app.route('/nurse/report-scan')
+def nreport():
+    return render_template('nreport.html')
+        
+@app.route('/nurse/report-machine')
+def nmachine():
+    return render_template('nmachine.html') 
+
 if __name__=='__main__':
     app.run(debug=True)
 
