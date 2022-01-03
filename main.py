@@ -2,6 +2,8 @@ from flask import Flask , render_template, request
 from flask.templating import render_template
 import mysql.connector
 # from passlib.hash import sha256_crypt
+drid = 0
+nuid = 0
 
 mydb = mysql.connector.connect(
 	host = 'localhost',
@@ -50,16 +52,36 @@ def admin():
 		bdate = request.form['bdate']
 		relstatus = request.form['relstatus']
 		sql = "INSERT INTO doctors (SSN, Name, ID, Address, PNumber, Qualifications, Gender, BDate, RelStatus) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-		val = ( ssn, (fname + minit + lname), 3, address, pnumber, qual, gender, bdate, relstatus)    
+		global drid
+		drid= drid+1
+		val = ( ssn, (fname + " " + minit + " " + lname), drid, address, pnumber, qual, gender, bdate, relstatus)    
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return render_template('admin.html')
 	else:
 		return render_template('admin.html') 
 
-@app.route('/admin/add-nurse')
+@app.route('/admin/add-nurse', methods = ['GET', 'POST'])
 def addnurse():
-	return render_template('addnurse.html')    
+	if request.method == 'POST':
+		fname = request.form['fname']
+		minit = request.form['minit']
+		lname = request.form['Lname']
+		ssn = request.form['SSN']
+		qual = request.form.get('qual')
+		bdate = request.form['nBdate']
+		address = request.form['address']
+		pnumber = request.form.get('npnumber')
+		email = request.form['email']
+		global nuid
+		nuid += 1
+		sql = 'INSERT INTO nurses (Name, SSN, ID, BDate, Address, PNumber, Email) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+		val = ((fname + " " + minit + ' ' + lname), ssn, nuid, bdate, address, pnumber, email)
+		mycursor.execute(sql, val)
+		mydb.commit()
+		return render_template('addnurse.html')
+	else:
+		return render_template('addnurse.html')
 	
 
 @app.route('/admin/add-machine')
