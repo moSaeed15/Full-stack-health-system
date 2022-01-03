@@ -2,7 +2,7 @@
 <div class="content">
   {% include 'includes/_adminsidebar.html' %}
   <main class="main">
-    <form id="form" class="form">
+    <form id="form" class="form" method = 'POST'>
       <h2>Add doctor</h2>
       <div class="name">
         <label for="fname">First name:</label>
@@ -54,7 +54,7 @@
       <div class="form-control">
         <label for="doctor bdate">Email:</label>
         <input type="email" name="email" placeholder=" Doctor email" />
-        <label for="doctor bdate">Relationship status:</label>
+        <label for="relsatus">Relationship status:</label>
         <input
           type="text"
           name="relstatus"

@@ -1,6 +1,18 @@
 from flask import Flask , render_template
 from flask.templating import render_template
+import mysql.connector
 # from passlib.hash import sha256_crypt
+
+drid = 0
+
+mydb = mysql.connector.connect(
+    host = 'localhost',
+    username = 'root',
+    passwd = '@Hm$d_2001',
+    database = 'radiology')
+mycursor = mydb.cursor()
+
+
 app=Flask(__name__)
 
 @app.route('/')
@@ -38,7 +50,26 @@ def addnurse():
 
 @app.route('/admin/add-doctor')
 def addDoctor():
-    return render_template('addDoctor.html')    
+    if request.method == 'POST':
+        print(1)
+        drid = drid + 1
+        fname = request.form['fname']
+        minit = reuqest.form['minit']
+        lname = reuqest.form['Lname']
+        ssn = request.form['DSSN']
+        address = request.form['address']
+        pnumber = request.form['pnumber']
+        qual = request.form['qualfications']
+        gender = request.form['gender']
+        bdate = request.form['bdate']
+        relstatus = request.form['relstatus']
+        sql = "INSERT INTO doctors (SSN, Name, ID, Address, PNumberr, Qualifications, Gender, BDate, RelStatus) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = ( ssn, (fname + minit + lname), drid, address, pnumber, qual, gender, bdate, relstatus)    
+        mycursor.execute(sql, val)
+        mydb.commit()
+        return render_template('admin.html')
+    else:
+        return render_template('addDoctor.html')    
 
 @app.route('/admin/add-machine')
 def addmachine():
