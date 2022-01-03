@@ -4,6 +4,9 @@ import mysql.connector
 # from passlib.hash import sha256_crypt
 drid = 0
 nuid = 0
+macid = 0
+roomid = 0
+techid = 0
 
 mydb = mysql.connector.connect(
 	host = 'localhost',
@@ -84,17 +87,57 @@ def addnurse():
 		return render_template('addnurse.html')
 	
 
-@app.route('/admin/add-machine')
+@app.route('/admin/add-machine', methods = ['GET', 'POST'])
 def addmachine():
-	return render_template('addmachine.html')    
+	if request.method == 'POST':
+		global macid
+		macid += 1
+		mtype = request.form['type']
+		mnumber = request.form['mnumber']
+		cday = request.form['cday']
+		purdate = request.form['purdate']
+		sql = 'INSERT INTO machines(ID, Type, ModelNum, CheckDays, PurDate) VALUES(%s, %s, %s, %s, %s)'
+		val = (macid, mtype, mnumber, cday, purdate)
+		mycursor.execute(sql, val)
+		mydb.commit()
+		return render_template('addmachine.html')
+	else:
+		return render_template('addmachine.html')
 
-@app.route('/admin/add-room')
+@app.route('/admin/add-room', methods = ['GET', 'POST'])
 def addroom():
-	return render_template('addroom.html')    
+	if request.method == 'POST':
+		global roomid
+		roomid += 1
+		name = request.form['rname']
+		sql = 'INSERT INTO rooms(Name, ID) VALUES (%s, %s)'
+		val = (name, roomid)
+		mycursor.execute(sql, val)
+		mydb.commit()
+		return render_template('addroom.html')
+	else:
+		return render_template('addroom.html') 
 
-@app.route('/admin/add-technician')
+@app.route('/admin/add-technician', methods = ['GET', 'POST'])
 def addtechnician():
-	return render_template('addtechnician.html')    
+	if request.method == 'POST':
+		global techid
+		techid += 1
+		fname = request.form['fname']
+		minit = request.form['minit']
+		lname = request.form['Lname']
+		ssn = request.form['DSSN']
+		address = request.form['address']
+		pnumber = request.form['tpnumber']
+		email = request.form['email']
+		bdate = request.form['bdate']
+		sql = 'INSERT INTO technician(Name, SSN, ID, Address, PNumber, Email, BDate) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+		val = ((fname + ' ' + minit + ' ' + lname), ssn, techid, address, pnumber, email, bdate)
+		mycursor.execute(sql, val)
+		mydb.commit()
+		return render_template('addtechnician.html')
+	else:
+		return render_template('addtechnician.html')   
 
 @app.route('/doctor/patient-list')
 def dview():
