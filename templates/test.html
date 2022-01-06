@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../static/styles/main.css">
+    <title>Radiology Department</title>
+</head>
+<body>
+  {% include 'includes/_navbar.html' %}
+  <div class='container'>
+    <form method = 'POST' action=''>
+     <div class='form-control'>
+        {{ form.username.label(class = ) }}
+        {{ form.username }}
+     </div>
+     <div class='form-control'>
+        {{ form.password.label }}
+        {{ form.password }}
+     </div>
+     <div class='form-control'>
+        {{ form.submit(class="btn") }}
+     </div>
+    </form>
+  </div>
+</body>
+</html>
