@@ -7,10 +7,10 @@
         <a href="http://127.0.0.1:5000/nurse" class="side-nav__link">
           <img
             class="side-nav__img"
-            src="../static/clock-svgrepo-com.svg"
-            alt="time-image"
+            src="../static/report-svgrepo-com.svg"
+            alt="report-image"
           />
-          <span>Shift report</span>
+          <span>Report case/scan:</span>
         </a>
       </li>
       <li class="side-nav__item">
@@ -27,19 +27,7 @@
           <span>View patient list</span>
         </a>
       </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/nurse/report-scan"
-          class="side-nav__link"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/report-svgrepo-com.svg"
-            alt="report-image"
-          />
-          <span>Report case/scan:</span>
-        </a>
-      </li>
+
       <li class="side-nav__item">
         <a
           href="http://127.0.0.1:5000/nurse/report-machine"
@@ -68,12 +56,14 @@
       </div>
       <div class="form-control">
         <label for="Machine Issue">Issue reported</label>
-        <input
-          style="width: 100%"
-          type="tel"
-          name="Missue"
-          placeholder=" Machine issue"
-        />
+        <input type="tel" name="Missue" placeholder=" Machine issue" />
+        <label for="Machine type">Machine type</label>
+        <select name="Mtype">
+          <option value="X-ray">X-ray</option>
+          <option value="CT">CT</option>
+          <option value="MRI">MRI</option>
+          <option value="Ultrasound">Ultrasound</option>
+        </select>
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Machine Report</button>

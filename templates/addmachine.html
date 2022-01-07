@@ -2,12 +2,22 @@
 <div class="content">
   {% include 'includes/_adminsidebar.html' %}
   <main class="main">
-    <form id="form" class="form" action = 'http://127.0.0.1:5000/admin/add-machine' method = 'POST'>
+    <form
+      id="form"
+      class="form"
+      action="http://127.0.0.1:5000/admin/add-machine"
+      method="POST"
+    >
       <h2>Add Machine</h2>
 
       <div class="form-control">
         <label for="Doctor machine">Type:</label>
-        <input type="tel" name="type" placeholder=" Machine type" />
+        <select name="Mtype">
+          <option value="X-ray">X-ray</option>
+          <option value="CT">CT</option>
+          <option value="MRI">MRI</option>
+          <option value="Ultrasound">Ultrasound</option>
+        </select>
         <label for="machine model number">Model number:</label>
         <input type="text" name="mnumber" placeholder=" Model number" />
       </div>

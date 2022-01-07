@@ -2,18 +2,24 @@
 <div class="content">
   {% include 'includes/_adminsidebar.html' %}
   <main class="main">
-    <form id="form" class="form" action = 'http://127.0.0.1:5000/admin/add-room' method = 'POST'>
-      <h2>Add Machine</h2>
+    <form
+      id="form"
+      class="form"
+      action="http://127.0.0.1:5000/admin/add-room"
+      method="POST"
+    >
+      <h2>Add Room</h2>
 
       <div class="form-control">
         <label for="room name">Room name:</label>
-        <input
-          type="text"
-          name="rname"
-          placeholder="Room name"
-        />
-        <label for='type'> Machine Type:</label>
-        <input type = 'text' name='type' placeholder='Type' />
+        <input type="text" name="rname" placeholder="Room name" />
+        <label for="type"> Machine Type:</label>
+        <select name="Mtype">
+          <option value="X-ray">X-ray</option>
+          <option value="CT">CT</option>
+          <option value="MRI">MRI</option>
+          <option value="Ultrasound">Ultrasound</option>
+        </select>
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Add machine</button>
