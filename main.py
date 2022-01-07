@@ -1,4 +1,4 @@
-from flask import Flask , render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 from flask.templating import render_template
 import mysql.connector
 from DB import connect
@@ -39,22 +39,18 @@ def signin():
 	return render_template('signin.html')
 
 @app.route('/doctor')
-@login_required
 def doctor():
 	return render_template('doctor.html')     
 
 @app.route('/nurse')
-@login_required
 def nurse():
 	return render_template('nurse.html')     
 
 @app.route('/home')
-@login_required
 def home():
 	return render_template('home.html')     
 
 @app.route('/patient', methods=['POST', 'GET'])
-@login_required
 def patient():
 	if request.method == 'POST':
 		fname = request.form['fname']
@@ -75,12 +71,10 @@ def patient():
 		return render_template('patient.html')
  
 @app.route('/technician')
-@login_required
 def technician():
 	return render_template('technician.html')     
 
 @app.route('/admin', methods=['GET', 'POST'])
-@roles_required('Admin')
 def admin(): 
 	if request.method == 'POST':
 		fname = request.form['fname']
@@ -118,7 +112,6 @@ def admin():
 		return render_template('admin.html') 
 
 @app.route('/admin/add-nurse', methods = ['GET', 'POST'])
-@login_required
 def addnurse():
 	if request.method == 'POST':
 		fname = request.form['fname']
@@ -151,7 +144,6 @@ def addnurse():
 	
 
 @app.route('/admin/add-machine', methods = ['GET', 'POST'])
-@login_required
 def addmachine():
 	if request.method == 'POST':
 		mtype = request.form['type']
@@ -167,7 +159,6 @@ def addmachine():
 		return render_template('addmachine.html')
 
 @app.route('/admin/add-room', methods = ['GET', 'POST'])
-@login_required
 def addroom():
 	if request.method == 'POST':
 		name = request.form['rname']
@@ -189,7 +180,6 @@ def addroom():
 		return render_template('addroom.html') 
 
 @app.route('/admin/add-technician', methods = ['GET', 'POST'])
-@login_required
 def addtechnician():
 	if request.method == 'POST':
 		fname = request.form['fname']
@@ -220,7 +210,6 @@ def addtechnician():
 		return render_template('addtechnician.html')   
 
 @app.route('/doctor/patient-list', methods = ['POST', 'GET'])
-@login_required
 def dview():
 	if request.method == 'POST':
 		return render_template('doctor.html')
@@ -235,48 +224,39 @@ def dview():
 		return render_template('dview.html', data = data)    
 
 @app.route('/doctor/report')
-@login_required
 def dreport():
 	return render_template('dreport.html') 
 
 
 @app.route('/nurse/patient-list')
-@login_required
 def nview():
 	return render_template('nview.html') 
 	
 @app.route('/nurse/report-scan')
-@login_required
 def nreport():
 	return render_template('nreport.html')
 		
 @app.route('/nurse/report-machine')
-@login_required
 def nmachine():
 	return render_template('nmachine.html') 
 
 @app.route('/patient/patient-scan-history')
-@login_required
 def phistory():
 	return render_template('phistory.html') 
 	
 @app.route('/patient/view-reservation')
-@login_required
 def preservation():
 	return render_template('preservation.html') 
 
 @app.route('/technician/maintenance')
-@login_required
 def tmaintenance():
 	return render_template('tmain.html')
 
 @app.route('/technician/checks')
-@login_required
 def tchecks():
 	return render_template('tchecks.html')     
 
 @app.route('/technician/issues')
-@login_required
 def tissues():
 	return render_template('tissues.html') 
 

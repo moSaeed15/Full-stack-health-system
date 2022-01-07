@@ -147,6 +147,9 @@ def connect():
         CONSTRAINT FK_ID5
           FOREIGN KEY(PAT_ID)
           REFERENCES Patients (ID)
+        CONSTRAINT FK_ID7
+          FOREIGN KEY(ID)
+          REFERENCES current_scans (ID)
       );
     ''')
     mydb.commit()
@@ -157,6 +160,7 @@ def connect():
         TYPE VARCHAR(45) NOT NULL,
         PURDATE DATE NOT NULL,
         CHECKDAYS INT NOT NULL,
+        IN_USE TINYINT NOT NULL,
         PRIMARY KEY(ID)
       );
     ''')
