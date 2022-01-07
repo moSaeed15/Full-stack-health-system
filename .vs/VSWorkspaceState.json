@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\templates"
+    "\\templates",
+    "\\templates\\static",
+    "\\templates\\static\\styles"
   ],
   "SelectedNode": "\\main.py",
   "PreviewInSolutionExplorer": false
