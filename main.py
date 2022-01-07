@@ -67,7 +67,7 @@ def patient():
 		val = (fname, minit, lname, ssn, address, pnumber, email)
 		mycursor.execute(sql, val)
 		mydb.commit()
-		return render_template('patient.html')
+		return redirect(url_for('patient'))
 	else:
 		return render_template('patient.html')
  
@@ -108,7 +108,7 @@ def admin():
 		val = (ssn, fname, minit, lname, address, pnumber, gender, bdate, id[0], email)    
 		mycursor.execute(sql, val)
 		mydb.commit()
-		return render_template('admin.html')
+		return redirect(url_for('admin'))
 	else:
 		return render_template('admin.html') 
 
@@ -139,7 +139,7 @@ def addnurse():
 		val = (fname, minit, lname, ssn, bdate, address, pnumber, email, gender, id[0])
 		mycursor.execute(sql, val)
 		mydb.commit()
-		return render_template('addnurse.html')
+		return redirect(url_for('addnurse'))
 	else:
 		return render_template('addnurse.html')
 	
@@ -155,7 +155,7 @@ def addmachine():
 		val = (mtype, mnumber, cday, purdate)
 		mycursor.execute(sql, val)
 		mydb.commit()
-		return render_template('addmachine.html')
+		return redirect(url_for('addmachine'))
 	else:
 		return render_template('addmachine.html')
 
@@ -176,7 +176,7 @@ def addroom():
 		val = (id[0],)
 		mycursor.execute(sql,val)
 		mydb.commit()
-		return render_template('addroom.html')
+		return redirect(url_for('addroom'))
 	else:
 		return render_template('addroom.html') 
 
@@ -206,14 +206,14 @@ def addtechnician():
 		val = (ssn, fname, minit, lname, address, pnumber, gender, bdate, id[0], email)    
 		mycursor.execute(sql, val)
 		mydb.commit()
-		return render_template('addtechnician.html')
+		return redirect(url_for('addtechnician'))
 	else:
 		return render_template('addtechnician.html')   
 
 @app.route('/doctor/patient-list', methods = ['POST', 'GET'])
 def dview():
 	if request.method == 'POST':
-		return render_template('doctor.html')
+		return redirect(url_for('doctor'))
 	else:
 		mycursor.execute('SELECT * FROM patients')
 		rowheaders = [x[0] for x in mycursor.description]
