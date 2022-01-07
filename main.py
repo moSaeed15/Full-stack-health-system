@@ -7,7 +7,7 @@ connect()
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
-	passwd = '@Hm$d_2001',
+	passwd = 'root',
 	database = 'radiology')
 mycursor = mydb.cursor(buffered =True)
 
