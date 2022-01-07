@@ -5,7 +5,7 @@ def connect():
     mydb = mysql.connector.connect(
       host="localhost",
       user="root",
-      passwd="root",
+      passwd="0504632240",
     )
     mycursor = mydb.cursor()
     mycursor.execute("CREATE DATABASE IF NOT EXISTS Radiology")
@@ -14,7 +14,7 @@ def connect():
     mydb = mysql.connector.connect(
       host="localhost",
       user="root",
-      passwd="root",
+      passwd="0504632240",
       database='Radiology'
     )
     mycursor = mydb.cursor()

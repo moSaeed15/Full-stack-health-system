@@ -3,12 +3,12 @@ from flask.templating import render_template
 import mysql.connector
 from DB import connect
 from datetime import datetime
-connect()
+# connect()
 
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
-	passwd = 'root',
+	passwd = '0504632240',
 	database = 'radiology')
 mycursor = mydb.cursor(buffered =True)
 
@@ -224,18 +224,12 @@ def dview():
 			'res': res}
 		return render_template('dview.html', data = data)    
 
-@app.route('/doctor/report')
-def dreport():
-	return render_template('dreport.html') 
-
 
 @app.route('/nurse/patient-list')
 def nview():
 	return render_template('nview.html') 
 	
-@app.route('/nurse/report-scan')
-def nreport():
-	return render_template('nreport.html')
+
 		
 @app.route('/nurse/report-machine')
 def nmachine():
@@ -249,9 +243,6 @@ def phistory():
 def preservation():
 	return render_template('preservation.html') 
 
-@app.route('/technician/maintenance')
-def tmaintenance():
-	return render_template('tmain.html')
 
 @app.route('/technician/checks')
 def tchecks():
