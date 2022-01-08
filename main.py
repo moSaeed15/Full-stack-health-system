@@ -118,7 +118,7 @@ def nurse():
 def home():
 	global type
 	if type =='a':
-		return render_template('home.html')
+		return redirect(url_for('admin'))
 	elif type=='p':
 		return redirect(url_for('patient'))
 	elif type=='d':
@@ -128,8 +128,8 @@ def home():
 	elif type=='n':
 		return redirect(url_for('nurse'))
 	else:
-        flash('Unauthorized, Please login')
-        return redirect(url_for('signin'))
+		flash('Unauthorized, Please login')
+		return redirect(url_for('signin'))
 
 
 @app.route('/registerp', methods=['POST', 'GET'])
