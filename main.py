@@ -3,8 +3,11 @@ from flask.templating import render_template
 import mysql.connector
 from DB import connect
 from datetime import datetime
+from functools import wraps
 # connect()
 
+isLoggedIn=False
+type=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
@@ -21,29 +24,92 @@ def signin():
 	if request.method == 'POST':
 		user = request.form['username']
 		passwd = request.form['password']
-		signtype = request.form['type']
-		cred = (user, passwd, signtype)
-		mycursor.execute('SELECT Username, Password, Type FROM users')
-		check = mycursor.fetchall()
-		if cred in check:
-			flash(f'Successfully signed in as { user }')
-			if signtype == 't':
-				return redirect(url_for('technician'))
-			elif signtype == 'a':
-				return redirect(url_for('admin'))
-			elif signtype == 'd':
-				return redirect(url_for('doctor'))
-			elif signtype == 'n':
-				return redirect(url_for('nurse'))
+		# cred = (user, passwd, signtype)
+		mycursor.execute("SELECT * FROM users WHERE username='" + user + "' and password='" + passwd + "'")
+		data=mycursor.fetchone()
+		render_template('doctor.html')	
+		if data is not None:
+			global type
+			_,_,password,type=data
+			print(password)
+			if password==passwd:
+				global isLoggedIn
+				isLoggedIn=True
+				if type =='d':
+					flash('You are now logged in')
+					return redirect(url_for('doctor'))
+				elif type=='t':
+					flash('You are now logged in')
+					return redirect(url_for('technician'))
+				elif type=='p':
+					flash('You are now logged in')
+					return redirect(url_for('patient'))
+				elif type=='a':
+					flash('You are now logged in')
+					return redirect(url_for('admin'))
 		else:
-			return redirect(url_for('signin'))
-	return render_template('signin.html')
+			flash('Wrong username or Password')
+			return render_template('signin.html')
+	else: 			
+		return render_template('signin.html')
+
+def is_logged_ind(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if isLoggedIn==True and type =='d':
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login')
+            return redirect(url_for('signin'))
+    return wrap
+
+def is_logged_int(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if isLoggedIn==True and type =='t':
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login')
+            return redirect(url_for('signin'))
+    return wrap
+
+def is_logged_inp(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if isLoggedIn==True and type =='p':
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login')
+            return redirect(url_for('signin'))
+    return wrap	
+
+def is_logged_inn(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if isLoggedIn==True and type =='n':
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login')
+            return redirect(url_for('signin'))
+    return wrap	
+
+def is_logged_ina(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if isLoggedIn==True and type =='a':
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login')
+            return redirect(url_for('signin'))
+    return wrap		
 
 @app.route('/doctor')
+@is_logged_ind
 def doctor():
 	return render_template('doctor.html')     
 
 @app.route('/nurse')
+@is_logged_inn
 def nurse():
 	return render_template('nurse.html')     
 
@@ -52,6 +118,7 @@ def home():
 	return render_template('home.html')     
 
 @app.route('/patient', methods=['POST', 'GET'])
+@is_logged_inp
 def patient():
 	if request.method == 'POST':
 		fname = request.form['fname']
@@ -72,10 +139,12 @@ def patient():
 		return render_template('patient.html')
  
 @app.route('/technician')
+@is_logged_int
 def technician():
 	return render_template('technician.html')     
 
 @app.route('/admin', methods=['GET', 'POST'])
+@is_logged_ina
 def admin(): 
 	if request.method == 'POST':
 		fname = request.form['fname']

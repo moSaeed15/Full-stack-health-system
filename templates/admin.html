@@ -7,15 +7,18 @@
   {% include 'includes/_adminsidebar.html' %}
 
   <main class="main">
-    <h2 style='text-align=center'>{% with messages = get_flashed_messages(with_categories=false) %}
-        {% if messages %}
-            {% for m in messages %}
-             {{ m }}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <h2 style="text-align: center">
+      {% with messages = get_flashed_messages(with_categories=false) %} {% if
+      messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif %} {%
+      endwith %}
     </h2>
-    <form id="form" class="form" action = "http://127.0.0.1:5000/admin", method = 'POST'>
+    <form
+      id="form"
+      class="form"
+      action="http://127.0.0.1:5000/admin"
+      ,
+      method="POST"
+    >
       <h2>Add doctor</h2>
       <div class="name">
         <label for="fname">First name:</label>
@@ -59,7 +62,7 @@
         <label for="bdate">Bdate:</label>
         <input type="date" name="Bdate" placeholder="Enter Birth date" />
       </div>
-      <div class = "form-control">
+      <div class="form-control">
         <label for="doctor usernmae">Username: </label>
         <input type="text" name="username" placeholder=" Username" />
         <label for="password">Password:</label>
