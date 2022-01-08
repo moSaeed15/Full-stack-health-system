@@ -3,9 +3,12 @@ from flask.templating import render_template
 import mysql.connector
 from datetime import datetime
 from functools import wraps
+import pandas as pd
+from scanassgn import scanassign
 
 isLoggedIn=False
-type=''
+typeL=''
+totalHrs=0
 currentuser=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
@@ -28,24 +31,24 @@ def signin():
 		data=mycursor.fetchone()
 		render_template('doctor.html')	
 		if data is not None:
-			global type
-			_,_,password,type=data
+			global typeL
+			_,_,password,typeL=data
 			print(password)
 			if password==passwd:
 				global isLoggedIn
 				global currentuser
 				currentuser = user
 				isLoggedIn=True
-				if type =='d':
+				if typeL =='d':
 					flash('You are now logged in')
 					return redirect(url_for('doctor'))
-				elif type=='t':
+				elif typeL=='t':
 					flash('You are now logged in')
 					return redirect(url_for('technician'))
-				elif type=='p':
+				elif typeL=='p':
 					flash('You are now logged in')
 					return redirect(url_for('patient'))
-				elif type=='a':
+				elif typeL=='a':
 					flash('You are now logged in')
 					return redirect(url_for('admin'))
 		else:
@@ -57,7 +60,7 @@ def signin():
 def is_logged_ind(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if isLoggedIn==True and type =='d':
+        if isLoggedIn==True and typeL =='d':
             return f(*args, **kwargs)
         else:
             flash('Unauthorized, Please login')
@@ -67,7 +70,7 @@ def is_logged_ind(f):
 def is_logged_int(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if isLoggedIn==True and type =='t':
+        if isLoggedIn==True and typeL =='t':
             return f(*args, **kwargs)
         else:
             flash('Unauthorized, Please login')
@@ -77,7 +80,7 @@ def is_logged_int(f):
 def is_logged_inp(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if isLoggedIn==True and type =='p':
+        if isLoggedIn==True and typeL =='p':
             return f(*args, **kwargs)
         else:
             flash('Unauthorized, Please login')
@@ -87,7 +90,7 @@ def is_logged_inp(f):
 def is_logged_inn(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if isLoggedIn==True and type =='n':
+        if isLoggedIn==True and typeL =='n':
             return f(*args, **kwargs)
         else:
             flash('Unauthorized, Please login')
@@ -97,7 +100,7 @@ def is_logged_inn(f):
 def is_logged_ina(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if isLoggedIn==True and type =='a':
+        if isLoggedIn==True and typeL =='a':
             return f(*args, **kwargs)
         else:
             flash('Unauthorized, Please login')
@@ -117,16 +120,16 @@ def nurse():
 
 @app.route('/home')
 def home():
-	global type
-	if type =='a':
+	global typeL
+	if typeL =='a':
 		return redirect(url_for('admin'))
-	elif type=='p':
+	elif typeL=='p':
 		return redirect(url_for('patient'))
-	elif type=='d':
+	elif typeL=='d':
 		return redirect(url_for('doctor'))
-	elif type=='t':
+	elif typeL=='t':
 		return redirect(url_for('technician'))
-	elif type=='n':
+	elif typeL=='n':
 		return redirect(url_for('nurse'))
 	else:
 		flash('Unauthorized, Please login')
@@ -167,11 +170,11 @@ def registerp():
 		return render_template('registerp.html')
 
 @app.route('/patient', methods=['POST', 'GET'])
-@is_logged_inp
 def patient():
 	if request.method == 'POST':
 		scantype = request.form['Mtype']
 		scandate = request.form['scandate']
+		print(type(scandate))
 
 		sql1 = 'SELECT ID FROM Users WHERE Username=%s'
 		global currentuser
@@ -179,27 +182,15 @@ def patient():
 		val1 = (currentuser,)
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
-
-		mycursor.execute('SELECT ID FROM Doctors WHERE HOURS<3')
-		resdr = mycursor.fetchone()
-		mycursor.execute('SELECT ID FROM Nurses WHERE HOURS<3')
-		resnur = mycursor.fetchone()		
-		mycursor.execute('''
-			SELECT Rooms.ID
-			FROM Rooms
-			JOIN PAT_ID On Rooms.
-		''')
-		resroom = mycursor.fetchone()
-
-		sql = 'INSERT INTO current_scans(PAT_ID, DATE, TYPE, DR_ID, PAT_ID, ROOM_ID) VALUES (%s, %s, %s)'
-		val = (id[0], scandate, scantype, resdr[0], resnur[0], resroom[0])
-		mycursor.execute(sql, val)
-		mydb.commit()
+		
+		#Scan assignment system
+		scanassign(scandate, scantype, id)
 		return redirect(url_for('patient'))
 	else:
 		return render_template('patient.html')
  
 @app.route('/technician')
+@is_logged_int
 def technician():
 	return render_template('technician.html')     
 
@@ -274,12 +265,12 @@ def addnurse():
 @app.route('/admin/add-machine', methods = ['GET', 'POST'])
 def addmachine():
 	if request.method == 'POST':
-		mtype = request.form['type']
+		mtype = request.form['Mtype']
 		mnumber = request.form['mnumber']
 		cday = request.form['cday']
 		purdate = request.form['purdate']
-		sql = 'INSERT INTO machines(TYPE, MODELNO, CHECKDAYS, PURDATE) VALUES(%s, %s, %s, %s)'
-		val = (mtype, mnumber, cday, purdate)
+		sql = 'INSERT INTO machines(TYPE, MODELNO, CHECKDAYS, PURDATE, IN_USE) VALUES(%s, %s, %s, %s, %s)'
+		val = (mtype, mnumber, cday, purdate, 0)
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return redirect(url_for('addmachine'))
@@ -290,13 +281,13 @@ def addmachine():
 def addroom():
 	if request.method == 'POST':
 		name = request.form['rname']
-		type = request.form['type']
+		type = request.form['Mtype']
 		sql= "SELECT ID FROM machines WHERE TYPE=%s AND IN_USE='0'"
 		val = (type,)
 		mycursor.execute(sql, val)
 		id = mycursor.fetchone()
-		sql = 'INSERT INTO rooms(NAME, MACHINE_ID) VALUES (%s, %s)'
-		val = (name, id[0])
+		sql = 'INSERT INTO rooms(NAME, MACHINE_ID, HOURS) VALUES (%s, %s, %s)'
+		val = (name, id[0], 24)
 		mycursor.execute(sql, val)
 		mydb.commit()
 		sql = "UPDATE machines SET IN_USE = '1' WHERE ID = %s"
@@ -349,7 +340,7 @@ def dview():
 		JOIN current_scans On Patients.ID=current_scans.PAT_ID
 		JOIN Doctors On current_scans.DR_ID=Doctors.ID
 		JOIN Users On Doctors.ID=Users.ID
-		WHERE Users.Username=%s
+		WHERE Users.Username='%s'
 		ORDER BY DATE ASC''', currentuser) 
 		rowheaders = [x[0] for x in mycursor.description]
 		print(rowheaders)
