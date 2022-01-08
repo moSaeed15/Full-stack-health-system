@@ -107,6 +107,7 @@ def is_logged_ina(f):
 @app.route('/doctor')
 @is_logged_ind
 def doctor():
+
 	return render_template('doctor.html')     
 
 @app.route('/nurse')
@@ -179,8 +180,19 @@ def patient():
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
 
-		sql = 'INSERT INTO current_scans(PAT_ID, DATE, TYPE) VALUES (%s, %s, %s)'
-		val = (id[0], scandate, scantype,)
+		mycursor.execute('SELECT ID FROM Doctors WHERE HOURS<3')
+		resdr = mycursor.fetchone()
+		mycursor.execute('SELECT ID FROM Nurses WHERE HOURS<3')
+		resnur = mycursor.fetchone()		
+		mycursor.execute('''
+			SELECT Rooms.ID
+			FROM Rooms
+			JOIN PAT_ID On Rooms.
+		''')
+		resroom = mycursor.fetchone()
+
+		sql = 'INSERT INTO current_scans(PAT_ID, DATE, TYPE, DR_ID, PAT_ID, ROOM_ID) VALUES (%s, %s, %s)'
+		val = (id[0], scandate, scantype, resdr[0], resnur[0], resroom[0])
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return redirect(url_for('patient'))
@@ -188,7 +200,6 @@ def patient():
 		return render_template('patient.html')
  
 @app.route('/technician')
-@is_logged_int
 def technician():
 	return render_template('technician.html')     
 
@@ -205,6 +216,7 @@ def admin():
 		pnumber = request.form['pnumber']
 		gender = request.form['gender']
 		bdate = request.form['Bdate']
+		hours = request.form['hours']
 		username = request.form['username']
 		password = request.form['password']
 		
@@ -218,8 +230,8 @@ def admin():
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
 		print('ID IS EQUAL TO %s', id)
-		sql = "INSERT INTO doctors (SSN, FName, MInit, LName, ADDRESS, PNUMBER,  GENDER, BDATE, ID, EMAIL) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-		val = (ssn, fname, minit, lname, address, pnumber, gender, bdate, id[0], email)    
+		sql = "INSERT INTO doctors (SSN, FName, MInit, LName, ADDRESS, PNUMBER,  GENDER, BDATE, ID, EMAIL, HOURS) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+		val = (ssn, fname, minit, lname, address, pnumber, gender, bdate, id[0], email, hours)    
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return redirect(url_for('admin'))
@@ -237,6 +249,7 @@ def addnurse():
 		address = request.form['address']
 		pnumber = request.form['npnumber']
 		gender = request.form['gender']
+		hours = request.form['hours']
 		email = request.form['email']
 		username = request.form['username']
 		password = request.form['password']
@@ -249,8 +262,8 @@ def addnurse():
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
 		print('ID IS EQUAL TO', id)
-		sql = 'INSERT INTO nurses (FName, MInit, LName, SSN, BDATE, ADDRESS, PNUMBER, EMAIL, GENDER, ID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-		val = (fname, minit, lname, ssn, bdate, address, pnumber, email, gender, id[0])
+		sql = 'INSERT INTO nurses (FName, MInit, LName, SSN, BDATE, ADDRESS, PNUMBER, EMAIL, GENDER, ID, HOURS) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+		val = (fname, minit, lname, ssn, bdate, address, pnumber, email, gender, id[0], hours)
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return redirect(url_for('addnurse'))
@@ -329,7 +342,15 @@ def dview():
 	if request.method == 'POST':
 		return redirect(url_for('doctor'))
 	else:
-		mycursor.execute('SELECT * FROM patients')
+		global currentuser
+		mycursor.execute('''
+		SELECT Patients.FName, Patients.LName, current_scans.TYPE, current_scans.DATE
+		FROM Patients 
+		JOIN current_scans On Patients.ID=current_scans.PAT_ID
+		JOIN Doctors On current_scans.DR_ID=Doctors.ID
+		JOIN Users On Doctors.ID=Users.ID
+		WHERE Users.Username=%s
+		ORDER BY DATE ASC''', currentuser) 
 		rowheaders = [x[0] for x in mycursor.description]
 		print(rowheaders)
 		res = mycursor.fetchall()
@@ -341,13 +362,13 @@ def dview():
 
 @app.route('/nurse/patient-list')
 def nview():
-	return render_template('nview.html') 
-	
-
+	return render_template('nview.html')
 		
 @app.route('/nurse/report-machine')
 def nmachine():
 	return render_template('nmachine.html') 
+
+
 
 @app.route('/patient/patient-scan-history')
 def phistory():
@@ -358,6 +379,8 @@ def preservation():
 	return render_template('preservation.html') 
 
 
+
+
 @app.route('/technician/checks')
 def tchecks():
 	return render_template('tchecks.html')     
@@ -365,6 +388,8 @@ def tchecks():
 @app.route('/technician/issues')
 def tissues():
 	return render_template('tissues.html') 
+
+
 
 if __name__=='__main__':
 	app.run(debug=True)
