@@ -1,17 +1,15 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from flask.templating import render_template
 import mysql.connector
-from DB import connect
 from datetime import datetime
 from functools import wraps
-# connect()
 
 isLoggedIn=False
 type=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
-	passwd = '0504632240',
+	passwd = '@Hm$d_2001',
 	database = 'radiology')
 mycursor = mydb.cursor(buffered =True)
 
@@ -118,7 +116,6 @@ def home():
 	return render_template('home.html')     
 
 @app.route('/patient', methods=['POST', 'GET'])
-@is_logged_inp
 def patient():
 	if request.method == 'POST':
 		fname = request.form['fname']
@@ -128,10 +125,26 @@ def patient():
 		address = request.form['address']
 		pnumber = request.form['pnumber']
 		email = request.form['email']
-		scantype = request.form['scantype']
+		gender = request.form['gender']
+		bdate = request.form['bdate']
+		username = request.form['username']
+		password = request.form['password']
+
+		sql = 'INSERT INTO users(Username, Password, Type) VALUES (%s, %s, %s)'
+		val = (username, password, 'p')
+		mycursor.execute(sql,val)
+		mydb.commit()
+
+		scantype = request.form['Mtype']
 		scandate = request.form['scandate']
-		sql = 'INSERT INTO patients(FName, MInit, LName, SSN, ADDRESS, PNUMBER, EMAIL) VALUES (%s, %s, %s, %s, %s, %s, %s)'
-		val = (fname, minit, lname, ssn, address, pnumber, email)
+
+		sql1 = 'SELECT ID FROM Users WHERE Username=%s'
+		val1 = (username,)
+		mycursor.execute(sql1, val1)
+		id = mycursor.fetchone()
+
+		sql = 'INSERT INTO patients(FName, MInit, LName, SSN, ADDRESS, PNUMBER, EMAIL, ID, GENDER, BDATE) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+		val = (fname, minit, lname, ssn, address, pnumber, email, id[0], gender, bdate)
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return redirect(url_for('patient'))
@@ -164,10 +177,6 @@ def admin():
 		mycursor.execute(sql,val)
 		mydb.commit()
 		
-		sql = "SELECT Username, Password, Type FROM Users WHERE Username = %s"
-		val = (username,)
-		mycursor.execute(sql, val)
-		user = mycursor.fetchone()
 		sql1 = 'SELECT ID FROM Users WHERE Username=%s'
 		val1 = (username,)
 		mycursor.execute(sql1, val1)
