@@ -10,7 +10,7 @@ currentuser=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
-	passwd = '@Hm$d_2001',
+	passwd = '0504632240',
 	database = 'radiology')
 mycursor = mydb.cursor(buffered =True)
 
@@ -390,6 +390,13 @@ def tissues():
 	return render_template('tissues.html') 
 
 
+@app.route('/about')
+def about():
+	return render_template('about.html') 
+
+@app.route('/contact')
+def contact():
+	return render_template('contact.html') 
 
 if __name__=='__main__':
 	app.run(debug=True)
