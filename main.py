@@ -6,6 +6,7 @@ from functools import wraps
 
 isLoggedIn=False
 type=''
+currentuser=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
@@ -32,6 +33,8 @@ def signin():
 			print(password)
 			if password==passwd:
 				global isLoggedIn
+				global currentuser
+				currentuser = user
 				isLoggedIn=True
 				if type =='d':
 					flash('You are now logged in')
@@ -113,10 +116,24 @@ def nurse():
 
 @app.route('/home')
 def home():
-	return render_template('home.html')     
+	global type
+	if type =='a':
+		return render_template('home.html')
+	elif type=='p':
+		return redirect(url_for('patient'))
+	elif type=='d':
+		return redirect(url_for('doctor'))
+	elif type=='t':
+		return redirect(url_for('technician'))
+	elif type=='n':
+		return redirect(url_for('nurse'))
+	else:
+        flash('Unauthorized, Please login')
+        return redirect(url_for('signin'))
 
-@app.route('/patient', methods=['POST', 'GET'])
-def patient():
+
+@app.route('/registerp', methods=['POST', 'GET'])
+def registerp():
 	if request.method == 'POST':
 		fname = request.form['fname']
 		minit = request.form['minit']
@@ -129,14 +146,11 @@ def patient():
 		bdate = request.form['bdate']
 		username = request.form['username']
 		password = request.form['password']
-
+		
 		sql = 'INSERT INTO users(Username, Password, Type) VALUES (%s, %s, %s)'
 		val = (username, password, 'p')
 		mycursor.execute(sql,val)
 		mydb.commit()
-
-		scantype = request.form['Mtype']
-		scandate = request.form['scandate']
 
 		sql1 = 'SELECT ID FROM Users WHERE Username=%s'
 		val1 = (username,)
@@ -145,6 +159,28 @@ def patient():
 
 		sql = 'INSERT INTO patients(FName, MInit, LName, SSN, ADDRESS, PNUMBER, EMAIL, ID, GENDER, BDATE) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
 		val = (fname, minit, lname, ssn, address, pnumber, email, id[0], gender, bdate)
+		mycursor.execute(sql, val)
+		mydb.commit()
+		return redirect(url_for('signin'))
+	else:
+		return render_template('registerp.html')
+
+@app.route('/patient', methods=['POST', 'GET'])
+@is_logged_inp
+def patient():
+	if request.method == 'POST':
+		scantype = request.form['Mtype']
+		scandate = request.form['scandate']
+
+		sql1 = 'SELECT ID FROM Users WHERE Username=%s'
+		global currentuser
+		print(currentuser)
+		val1 = (currentuser,)
+		mycursor.execute(sql1, val1)
+		id = mycursor.fetchone()
+
+		sql = 'INSERT INTO current_scans(PAT_ID, DATE, TYPE) VALUES (%s, %s, %s)'
+		val = (id[0], scandate, scantype,)
 		mycursor.execute(sql, val)
 		mydb.commit()
 		return redirect(url_for('patient'))
