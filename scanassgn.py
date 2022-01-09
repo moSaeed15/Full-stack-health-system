@@ -8,10 +8,11 @@ import pandas as pd
 def scanassign(scandate, scantype, id):
 	scandate = scandate.replace('-','')
 	mydb = mysql.connector.connect(
-	host = 'localhost',
-	username = 'root',
-	passwd = '@Hm$d_2001',
-	database = 'radiology')
+		host = 'localhost',
+		username = 'root',
+		passwd = '@Hm$d_2001',
+		database = 'radiology'
+	)
 	mycursor = mydb.cursor(buffered =True)
 	drid = -1; nurid = -1; roomid = -1
 	extradr = -1; extranur = -1; extraroom = -1
@@ -70,30 +71,58 @@ def scanassign(scandate, scantype, id):
 		ORDER BY Rooms.ID''')
 	rooms = mycursor.fetchall()
 	df = pd.DataFrame(rooms)
+	print(df)
 	if (roomhrs):
 		df1 = df[1].where(df[0] == roomhrs[1])
-		if int(roomhrs[2]) < int(df1[0]):
-			roomid = roomhrs[1]
-			extraroom = 0
+		if(isinstance(df1[0], int)):
+			if int(roomhrs[2]) < int(df1[0]):
+				roomid = roomhrs[1]
+				extraroom = 0
+			else:
+				extraroom = 1
+				mycursor.execute(f'''
+					SELECT Rooms.ID, Rooms.HOURS 
+					FROM Rooms 
+					JOIN Machines ON Rooms.MACHINE_ID=Machines.ID 
+					WHERE Machines.TYPE="{scantype}" AND Rooms.ID > {roomhrs[1]}
+					ORDER BY Rooms.ID
+				''')
+				roomid = mycursor.fetchone
 		else:
 			extraroom = 1
-			mycursor.execute(f"SELECT ID FROM Rooms WHERE ID > {roomhrs[1]} ORDER BY ID")
-			roomid = mycursor.fetchone()
+			mycursor.execute(f'''
+			SELECT Rooms.ID 
+			FROM Rooms 
+			JOIN Machines ON Rooms.MACHINE_ID=Machines.ID 
+			WHERE Machines.TYPE="{scantype}" 
+			ORDER BY Rooms.ID''')
+			roomid= mycursor.fetchone()
 	else:
 		extraroom = 1
-		mycursor.execute("SELECT ID FROM Rooms")
+		mycursor.execute(f'''
+		SELECT Rooms.ID 
+		FROM Rooms 
+		JOIN Machines ON Rooms.MACHINE_ID=Machines.ID 
+		WHERE Machines.TYPE="{scantype}" 
+		ORDER BY Rooms.ID''')
 		roomid= mycursor.fetchone()
-
+	print(roomid, nurid, drid)
 	if isinstance(drid, tuple):
 		drid=drid[0]
 	if isinstance(nurid, tuple):
 		nurid=nurid[0]
 	if isinstance(roomid, tuple):
-		roomid=rooid[0]
+		roomid=roomid[0]
 	if (int(drid)> -1) and (int(nurid)> -1) and (int(roomid)>-1):
 		sql = 'INSERT INTO current_scans(PAT_ID, DATE, TYPE, DR_ID, NUR_ID, ROOM_ID) VALUES (%s, %s, %s, %s, %s, %s)'
 		val = (id[0], scandate, scantype, int(drid), int(nurid), int(roomid))
 		mycursor.execute(sql, val)
+		mydb.commit()
+		mycursor.execute(f'''
+			INSERT INTO Scan_History(ID, PAT_ID, TYPE, DATE, DR_ID, NUR_ID)
+			SELECT ID, PAT_ID, TYPE, DATE, DR_ID, NUR_ID FROM current_scans
+			WHERE current_scans.ID NOT IN (SELECT ID FROM Scan_History)
+		''')
 		mydb.commit()
 		if (extradr == 1):
 			sql = 'INSERT INTO DoctorHours(DATE, DR_ID, HOURS_USED) VALUES (%s, %s, %s)'
@@ -123,4 +152,3 @@ def scanassign(scandate, scantype, id):
 			mydb.commit()
 	else:
 		flash('Failed to reserve, no more room in this day!')
-

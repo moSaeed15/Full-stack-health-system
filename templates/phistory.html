@@ -65,21 +65,19 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Scan date</th>
-              <th>Scan type</th>
-              <th>Scan room</th>
-              <th>Scan result</th>
-              <th>Scan Time</th>
+              {% for rh in data.rowheaders %}
+              <th>{{rh}}</th>
+              {% endfor %}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>15/1/2020</td>
-              <td>X-Ray</td>
-              <td>1</td>
-              <td>Cancer el 7amdallah</td>
-              <td>3 PM</td>
+              {% for x in data.res %}
+            <tr class="active-row">
+              {% for m in x %}
+              <td>{{m}}</td>
+              {% endfor %}
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </main>

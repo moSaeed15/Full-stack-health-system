@@ -194,23 +194,29 @@ mydb.commit()
 mycursor.execute('''
     CREATE TABLE IF NOT EXISTS Scan_History (
     ID INT NOT NULL UNIQUE,
-    PAT_ID INT NOT NULL UNIQUE,
+    PAT_ID INT NOT NULL,
+    DR_ID INT NOT NULL,
+    NUR_ID INT NOT NULL,
     TYPE VARCHAR(45) NOT NULL, 
+    DIAGNOSIS TINYTEXT,
     DATE DATE NOT NULL,
     PRIMARY KEY(ID),
     CONSTRAINT FK_ID5
         FOREIGN KEY(PAT_ID)
         REFERENCES Patients (ID),
-    CONSTRAINT FK_ID8
-        FOREIGN KEY(ID)
-        REFERENCES current_scans (ID)
+    CONSTRAINT FK_ID11
+        FOREIGN KEY(DR_ID)
+        REFERENCES Doctors (ID),
+    CONSTRAINT FK_ID12
+        FOREIGN KEY(NUR_ID)
+        REFERENCES Nurses (ID),
     );
 ''')
 mydb.commit()
 mycursor.execute('''
     CREATE TABLE IF NOT EXISTS DoctorHours (
     DATE DATE NOT NULL,
-    DR_ID INT NOT NULL UNIQUE,
+    DR_ID INT NOT NULL,
     HOURS_USED INT NOT NULL,
     CONSTRAINT FK_DRID
         FOREIGN KEY(DR_ID)
@@ -221,7 +227,7 @@ mydb.commit()
 mycursor.execute('''
     CREATE TABLE IF NOT EXISTS NurseHours (
     DATE DATE NOT NULL,
-    NUR_ID INT NOT NULL UNIQUE,
+    NUR_ID INT NOT NULL,
     HOURS_USED INT NOT NULL,
     CONSTRAINT FK_NURID1
         FOREIGN KEY(NUR_ID)
@@ -232,7 +238,7 @@ mydb.commit()
 mycursor.execute('''
     CREATE TABLE IF NOT EXISTS RoomHours (
     DATE DATE NOT NULL,
-    ROOM_ID INT NOT NULL UNIQUE,
+    ROOM_ID INT NOT NULL,
     HOURS_USED INT NOT NULL,
     CONSTRAINT FK_ROOMID
         FOREIGN KEY(ROOM_ID)

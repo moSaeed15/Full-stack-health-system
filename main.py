@@ -29,7 +29,6 @@ def signin():
 		# cred = (user, passwd, signtype)
 		mycursor.execute("SELECT * FROM users WHERE username='" + user + "' and password='" + passwd + "'")
 		data=mycursor.fetchone()
-		render_template('doctor.html')	
 		if data is not None:
 			global typeL
 			_,_,password,typeL=data
@@ -51,6 +50,9 @@ def signin():
 				elif typeL=='a':
 					flash('You are now logged in')
 					return redirect(url_for('admin'))
+				elif typeL=='n':
+					flash('You are now logged in')
+					return redirect(url_for('nurse'))				
 		else:
 			flash('Wrong username or Password')
 			return render_template('signin.html')
@@ -106,17 +108,7 @@ def is_logged_ina(f):
             flash('Unauthorized, Please login')
             return redirect(url_for('signin'))
     return wrap		
-
-@app.route('/doctor')
-@is_logged_ind
-def doctor():
-
-	return render_template('doctor.html')     
-
-@app.route('/nurse')
-@is_logged_inn
-def nurse():
-	return render_template('nurse.html')     
+    
 
 @app.route('/home')
 def home():
@@ -185,14 +177,11 @@ def patient():
 		
 		#Scan assignment system
 		scanassign(scandate, scantype, id)
+		
 		return redirect(url_for('patient'))
 	else:
 		return render_template('patient.html')
- 
-@app.route('/technician')
-@is_logged_int
-def technician():
-	return render_template('technician.html')     
+     
 
 @app.route('/admin', methods=['GET', 'POST'])
 @is_logged_ina
@@ -328,32 +317,101 @@ def addtechnician():
 	else:
 		return render_template('addtechnician.html')   
 
+
+
+@app.route('/doctor', methods=['POST', 'GET'])
+@is_logged_ind
+def doctor():
+	if 	request.method == 'POST':
+		case = request.form['data']
+		diag = request.form['diag']
+		mycursor.execute(f'DELETE FROM current_scans WHERE ID={case}')
+		mydb.commit()
+		mycursor.execute(f'UPDATE Scan_History SET DIAGNOSIS={diag}')
+		mydb.commit()
+		redirect(url_for('doctor'))
+	else:
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM USERS WHERE Username = '{currentuser}'")
+		resid = mycursor.fetchone()
+		mycursor.execute(f'''
+			SELECT Patients.FName, Patients.LName, current_scans.DATE, current_scans.TYPE
+			FROM current_scans
+			JOIN Patients On current_scans.PAT_ID=Patients.ID
+			JOIN Doctors On current_scans.DR_ID=Doctors.ID
+			WHERE current_scans.DR_ID='{resid[0]}'
+			ORDER BY DATE ASC
+		''')
+		res = mycursor.fetchall()
+		mycursor.execute(f'''
+			SELECT current_scans.ID
+			FROM current_scans
+			JOIN Patients On current_scans.PAT_ID=Patients.ID
+			JOIN Doctors On current_scans.DR_ID=Doctors.ID
+			WHERE current_scans.DR_ID='{resid[0]}'
+			ORDER BY DATE ASC
+		''')
+		val = mycursor.fetchall()
+		data = val + res
+		print(type(data))
+		x = len(val)
+		print(x)
+		return render_template('doctor.html', data=data, x=int(x))
+	
 @app.route('/doctor/patient-list', methods = ['POST', 'GET'])
 def dview():
 	if request.method == 'POST':
 		return redirect(url_for('doctor'))
 	else:
 		global currentuser
-		mycursor.execute('''
+		mycursor.execute(f"SELECT ID FROM USERS WHERE Username = '{currentuser}'")
+		resid = mycursor.fetchone()
+		mycursor.execute(f'''
 		SELECT Patients.FName, Patients.LName, current_scans.TYPE, current_scans.DATE
 		FROM Patients 
 		JOIN current_scans On Patients.ID=current_scans.PAT_ID
 		JOIN Doctors On current_scans.DR_ID=Doctors.ID
 		JOIN Users On Doctors.ID=Users.ID
-		WHERE Users.Username='%s'
-		ORDER BY DATE ASC''', currentuser) 
-		rowheaders = [x[0] for x in mycursor.description]
-		print(rowheaders)
+		WHERE current_scans.DR_ID = '{resid[0]}'
+		ORDER BY DATE ASC''') 
+		rowheaders = ['First Name', 'Last Name', 'Scan Type', 'Scan Date']
 		res = mycursor.fetchall()
+		print(rowheaders, res, currentuser)
 		data = {
 			'rowheaders': rowheaders,
 			'res': res}
 		return render_template('dview.html', data = data)    
 
 
+
+@app.route('/nurse')
+@is_logged_inn
+def nurse():
+	return render_template('nurse.html')     
+
 @app.route('/nurse/patient-list')
 def nview():
-	return render_template('nview.html')
+	if request.method == 'POST':
+		return redirect(url_for('nurse'))
+	else:
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM USERS WHERE Username = '{currentuser}'")
+		resid = mycursor.fetchone()
+		mycursor.execute(f'''
+		SELECT Patients.FName, Patients.LName, current_scans.TYPE, current_scans.DATE
+		FROM Patients 
+		JOIN current_scans On Patients.ID=current_scans.PAT_ID
+		JOIN Nurses On current_scans.NUR_ID=Nurses.ID
+		JOIN Users On Nurses.ID=Users.ID
+		WHERE current_scans.NUR_ID = '{resid[0]}'
+		ORDER BY DATE ASC''') 
+		rowheaders = ['First Name', 'Last Name', 'Scan Type', 'Scan Date']
+		res = mycursor.fetchall()
+		print(rowheaders, res, currentuser)
+		data = {
+			'rowheaders': rowheaders,
+			'res': res}
+		return render_template('nview.html', data = data)    
 		
 @app.route('/nurse/report-machine')
 def nmachine():
@@ -363,14 +421,60 @@ def nmachine():
 
 @app.route('/patient/patient-scan-history')
 def phistory():
-	return render_template('phistory.html') 
+	if request.method == 'POST':
+		return redirect(url_for('patient'))
+	else:
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM USERS WHERE Username = '{currentuser}'")
+		resid = mycursor.fetchone()
+		mycursor.execute(f'''
+		SELECT Doctors.FName, Doctors.LName, Nurses.FName, Nurses.LName, current_scans.TYPE, current_scans.DATE
+		FROM Scan_History
+		JOIN Patients On Scan_History.PAT_ID=Patients.ID
+		JOIN Nurses On Scan_History.NUR_ID=Nurses.ID
+		JOIN Doctors On Scan_History.DR_ID=Doctors.ID
+		JOIN Users On Patients.ID=Users.ID
+		WHERE Scan_History.PAT_ID = '{resid[0]}'
+		ORDER BY DATE ASC''')
+		rowheaders = ['Dr First Name', 'Dr Last Name', 'Nurse First Name', 'Nurse Last Name','Scan Type', 'Scan Date']
+		res = mycursor.fetchall()
+		print(rowheaders, res, currentuser)
+		data = {
+			'rowheaders': rowheaders,
+			'res': res}
+		return render_template('phistory.html', data = data)    
 	
 @app.route('/patient/view-reservation')
 def preservation():
-	return render_template('preservation.html') 
+	if request.method == 'POST':
+		return redirect(url_for('patient'))
+	else:
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM USERS WHERE Username = '{currentuser}'")
+		resid = mycursor.fetchone()
+		mycursor.execute(f'''
+		SELECT Doctors.FName, Doctors.LName, Nurses.FName, Nurses.LName, current_scans.TYPE, current_scans.DATE
+		FROM Patients 
+		JOIN current_scans On Patients.ID=current_scans.PAT_ID
+		JOIN Nurses On current_scans.NUR_ID=Nurses.ID
+		JOIN Doctors On current_scans.DR_ID=Doctors.ID
+		JOIN Users On Patients.ID=Users.ID
+		WHERE  AND current_scans.PAT_ID = '{resid[0]}'
+		ORDER BY DATE ASC''') 
+		rowheaders = ['Dr First Name', 'Dr Last Name', 'Nurse First Name', 'Nurse Last Name','Scan Type', 'Scan Date']
+		res = mycursor.fetchall()
+		print(rowheaders, res, currentuser)
+		data = {
+			'rowheaders': rowheaders,
+			'res': res}
+		return render_template('preservation.html', data = data) 
 
 
-
+ 
+@app.route('/technician')
+@is_logged_int
+def technician():
+	return render_template('technician.html')
 
 @app.route('/technician/checks')
 def tchecks():
@@ -383,4 +487,4 @@ def tissues():
 
 
 if __name__=='__main__':
-	app.run(debug=True)
+@	app.run(debug=True)

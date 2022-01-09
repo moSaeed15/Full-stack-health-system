@@ -31,46 +31,15 @@
     </h2>
     <form id="form" class="form">
       <h2>Case Report</h2>
-      <div class="name">
-        <label for="fname"> Patient Fname:</label>
-        <input
-          class="fname"
-          type="text"
-          name="fname"
-          placeholder=" First name"
-        />
-        <label for="mInt">Patient MI:</label>
-        <input
-          class="minit"
-          type="text"
-          name="minit"
-          placeholder=" Middle initial"
-        />
-        <label for="Lname">Patient Lname:</label>
-        <input
-          class="lname"
-          type="text"
-          name="Lname"
-          placeholder=" Last Name"
-        />
-      </div>
-
       <div class="form-control">
-        <label for="doctor bdate">Patient ID:</label>
-        <input type="tel" name="PID" placeholder=" Patient ID" />
-        <label for="patient diagnosis">Patient diagnosis:</label>
-        <input type="text" name="Pdiagnosis" placeholder="Patient diagnosis" />
-      </div>
-      <div class="form-control">
-        <label for="doctor bdate">Scan type:</label>
-        <select name="Mtype">
-          <option value="X-ray">X-ray</option>
-          <option value="CT">CT</option>
-          <option value="MRI">MRI</option>
-          <option value="Ultrasound">Ultrasound</option>
-        </select> 
-        <label for="patient diagnosis">Scan date:</label>
-        <input type="date" name="Sdate" placeholder="Scan date" />
+        <label for="doctor bdate">Scan</label>
+          <select stytle='width:100%' name="data">
+           {% for i in range(x) %}
+           <option value = "{{data[i]}}">{{data[i+x]}}</option>
+           {% endfor %}
+          </select>
+        <label for-"scan">Diagnosis</label>
+        <input type='text' name = 'diag' placeholder='diagnosis' />
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Case Report</button>
