@@ -3,7 +3,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="0504632240",
+    passwd="@Hm$d_2001",
 )
 mycursor = mydb.cursor()
 mycursor.execute('DROP DATABASE IF EXISTS Radiology')
@@ -14,7 +14,7 @@ mydb.commit()
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="0504632240",
+    passwd="@Hm$d_2001",
     database='Radiology'
 )
 mycursor = mydb.cursor()
