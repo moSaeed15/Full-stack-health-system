@@ -68,6 +68,11 @@
     </ul>
   </nav>
   <main class="main">
+    <h2 style="text-align: center">
+      {% with messages = get_flashed_messages(with_categories=false) %} {% if
+      messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif %} {%
+      endwith %}
+    </h2>
     <form
       id="form"
       class="form"

@@ -541,6 +541,7 @@ label {
   -ms-flex-align: center;
   align-items: center;
   padding: 2rem 10rem;
+  margin-top: 4rem;
 }
 
 .contact-container:after {

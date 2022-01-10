@@ -62,6 +62,11 @@
         </ul>
       </nav>
       <main class="main">
+        <h2 style="text-align: center">
+          {% with messages = get_flashed_messages(with_categories=false) %} {%
+          if messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif
+          %} {% endwith %}
+        </h2>
         <table class="table">
           <thead>
             <tr>
@@ -71,7 +76,7 @@
             </tr>
           </thead>
           <tbody>
-              {% for x in data.res %}
+            {% for x in data.res %}
             <tr class="active-row">
               {% for m in x %}
               <td>{{m}}</td>
