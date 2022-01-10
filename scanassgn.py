@@ -78,7 +78,9 @@ def scanassign(scandate, scantype, id):
 			if int(roomhrs[2]) < int(df1[0]):
 				roomid = roomhrs[1]
 				extraroom = 0
+				print('CHEEECKKKK111')
 			else:
+				print('CHEEECKKKK222')
 				extraroom = 1
 				mycursor.execute(f'''
 					SELECT Rooms.ID, Rooms.HOURS 
@@ -89,6 +91,7 @@ def scanassign(scandate, scantype, id):
 				''')
 				roomid = mycursor.fetchone
 		else:
+			print('CHEEECKKKK333')
 			extraroom = 1
 			mycursor.execute(f'''
 			SELECT Rooms.ID 
@@ -98,6 +101,7 @@ def scanassign(scandate, scantype, id):
 			ORDER BY Rooms.ID''')
 			roomid= mycursor.fetchone()
 	else:
+		print('CHEEECKKKK444')
 		extraroom = 1
 		mycursor.execute(f'''
 		SELECT Rooms.ID 
@@ -113,7 +117,7 @@ def scanassign(scandate, scantype, id):
 		nurid=nurid[0]
 	if isinstance(roomid, tuple):
 		roomid=roomid[0]
-	if (int(drid)> -1) and (int(nurid)> -1) and (int(roomid)>-1):
+	if (drid) and (nurid) and (roomid):
 		sql = 'INSERT INTO current_scans(PAT_ID, DATE, TYPE, DR_ID, NUR_ID, ROOM_ID) VALUES (%s, %s, %s, %s, %s, %s)'
 		val = (id[0], scandate, scantype, int(drid), int(nurid), int(roomid))
 		mycursor.execute(sql, val)

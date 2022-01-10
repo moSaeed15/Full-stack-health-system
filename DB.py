@@ -209,7 +209,7 @@ mycursor.execute('''
         REFERENCES Doctors (ID),
     CONSTRAINT FK_ID12
         FOREIGN KEY(NUR_ID)
-        REFERENCES Nurses (ID),
+        REFERENCES Nurses (ID)
     );
 ''')
 mydb.commit()
