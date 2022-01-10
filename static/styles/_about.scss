@@ -10,7 +10,7 @@
   width: 80%;
   display: block;
   margin: auto;
-  padding-top: 100px;
+  padding-top: 10rem;
 }
 .content_paragraph {
   margin-left: 2rem;
@@ -29,40 +29,29 @@
 }
 .content-section .title {
   text-transform: uppercase;
-  font-size: 28px;
+  font-size: 2.8rem;
 }
 .content-section .content h3 {
-  margin-top: 20px;
+  margin-top: 2rem;
   color: #5d5d5d;
-  font-size: 21px;
+  font-size: 2.1rem;
 }
 .content-section .content p {
-  margin-top: 10px;
+  margin-top: 1rem;
   font-family: sans-serif;
-  font-size: 18px;
+  font-size: 1.8rem;
   line-height: 1.5;
 }
 .content-section .content .button {
-  margin-top: 30px;
+  margin-top: 3rem;
 }
-.content-section .content .button a {
-  background-color: #333;
-  padding: 12px 40px;
-  text-decoration: none;
-  color: #fff;
-  font-size: 25px;
-  letter-spacing: 1.5px;
-}
-.content-section .content .button a:hover {
-  background-color: $color-primary-dark;
-  color: #fff;
-}
+
 .content-section .social {
-  margin: 40px 40px;
+  margin: 4rem 4rem;
 }
 .content-section .social i {
   color: $color-primary-dark;
-  font-size: 30px;
+  font-size: 3rem;
   padding: 0px 10px;
 }
 .content-section .social i:hover {
@@ -73,7 +62,7 @@
     width: 80%;
     display: block;
     margin: auto;
-    padding-top: 50px;
+    padding-top: 5rem;
   }
   .content-section {
     float: none;
@@ -93,13 +82,13 @@
   }
   .content-section .title {
     text-align: center;
-    font-size: 19px;
+    font-size: 1.9rem;
   }
   .content-section .content .button {
     text-align: center;
   }
   .content-section .content .button a {
-    padding: 9px 30px;
+    padding: 9px 3rem;
   }
   .content-section .social {
     text-align: center;
