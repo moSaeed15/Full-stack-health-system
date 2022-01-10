@@ -1,9 +1,80 @@
 {% extends 'admin.html' %} {% block body %}
 <div class="content">
-  {% include 'includes/_adminsidebar.html' %}
+  <nav class="sidebar">
+    <ul class="side-nav">
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/admin" class="side-nav__link">
+          <img
+            class="side-nav__img"
+            src="../static/doctor-svgrepo-com.svg"
+            alt="Doctor-image"
+          />
+          <span>Add doctor</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/admin/add-nurse" class="side-nav__link">
+          <img
+            class="side-nav__img"
+            src="../static/nurse-svgrepo-com.svg"
+            alt="Nurse-image"
+          />
+          <span>Add Nurse</span>
+        </a>
+      </li>
+      <li class="side-nav__item side-nav__item--active">
+        <a
+          href="http://127.0.0.1:5000/admin/add-technician"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Add Technician</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-machine"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/mri-patient-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Add Machine</span>
+        </a>
+      </li>
+
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/admin/add-room"
+          class="side-nav__link"
+          id="4"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/hospital-svgrepo-com.svg"
+            alt="technician-image"
+          />
+          <span>Add room</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <main class="main">
-    <form id="form" class="form" action = 'http://127.0.0.1:5000/admin/add-technician' method = 'POST'>
+    <form
+      id="form"
+      class="form"
+      action="http://127.0.0.1:5000/admin/add-technician"
+      method="POST"
+    >
       <h2>Add Technician</h2>
       <div class="name">
         <label for="fname">First name:</label>
@@ -63,7 +134,7 @@
           placeholder="Enter technician birth date"
         />
       </div>
-      <div class = "form-control">
+      <div class="form-control">
         <label for=" usernmae">Username: </label>
         <input type="text" name="username" placeholder=" Username" />
         <label for="password">Password:</label>

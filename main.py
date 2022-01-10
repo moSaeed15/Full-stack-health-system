@@ -15,7 +15,7 @@ currentuser=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
-	passwd = '@Hm$d_2001',
+	passwd = '0504632240',
 	database = 'radiology')
 mycursor = mydb.cursor(buffered =True)
 
@@ -511,7 +511,7 @@ def technician():
 def tchecks():
 	return render_template('tchecks.html')     
 
-@app.route('/technician/issues
+@app.route('/technician/issues')
 @is_logged_int
 def tissues():
 	return render_template('tissues.html') 

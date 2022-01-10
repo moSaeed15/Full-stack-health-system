@@ -24,6 +24,13 @@
       margin: 0 3rem;
       font-size: 1.3rem;
       color: #7c7c7c;
+      &:hover {
+        margin-top: 2.5rem;
+        padding-bottom: 2.3rem;
+        box-sizing: content-box;
+        color: #616161;
+        border-bottom: solid 3px $color-primary-dark;
+      }
     }
   }
   &__btn {

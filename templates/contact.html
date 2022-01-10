@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/styles/main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="contact-body">
+    {% include 'includes/_navbar.html' %}
+    <div class="contact-container">
+      <div class="contact-box">
+        <div class="left"></div>
+        <div class="right">
+          <h2 class="contact-header">Contact Us</h2>
+          <form
+            action="https://formsubmit.co/mohammed.elsaeed1@gmail.com"
+            method="POST"
+          >
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="text" class="field" placeholder="Your Name" required />
+            <input
+              type="email"
+              class="field"
+              placeholder="Your Email"
+              required
+            />
+            <input
+              type="hidden"
+              name="_next"
+              value="http://127.0.0.1:5000/contact"
+            />
+
+            <input type="text" class="field" placeholder="Phone" required />
+            <textarea placeholder="Message" class="field"></textarea>
+            <button type="submit" class="contact-btn">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
