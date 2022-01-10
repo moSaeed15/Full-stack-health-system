@@ -61,7 +61,7 @@
       <h2>Reserve scan</h2>
       <div class = "form-control">
         <label for="Patient ID">Scan type </label>
-        <select style='width:100%' name="Mtype">
+        <select style='width:100%' name="Mtype" required>
           <option value="X-ray">X-ray</option>
           <option value="CT">CT</option>
           <option value="MRI">MRI</option>
@@ -70,7 +70,7 @@
       </div>
       <div class = "form-control">
         <label for="scandate">Scan date </label>
-        <input style='width:100%' type="date" name="scandate" />
+        <input style='width:100%' type="date" name="scandate" required />
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Submit</button>

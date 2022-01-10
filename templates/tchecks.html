@@ -68,7 +68,7 @@
 
       <div class="form-control">
         <label for="Machine ID">Machine ID</label>
-        <select style='width:100%' name="machid">
+        <select style='width:100%' name="machid" required>
            {% for i in range(x) %}
            <option value = "{{data[i]}}">{{data[i+x]}}</option>
            {% endfor %}
@@ -76,7 +76,7 @@
       </div>
       <div class ="form-control">
         <label for="result">Machine Check Result</label>
-        <input style='width:100%' name ='result' type='text' placeholder='Enter the fix description' />
+        <input style='width:100%' name ='result' type='text' placeholder='Enter the fix description'  required/>
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Report check</button>

@@ -60,13 +60,13 @@
       <h2>Case Report</h2>
       <div class="form-control">
         <label for="doctor bdate">Scan</label>
-          <select style='width:100%' name="data">
+          <select style='width:100%' name="data"  required>
            {% for i in range(x) %}
            <option value = "{{data[i]}}">{{data[i+x]}}</option>
            {% endfor %}
           </select>
         <label for="scan">Diagnosis</label>
-        <input type='text' name = 'diag' placeholder='diagnosis' />
+        <input type='text' name = 'diag' placeholder='diagnosis'  required/>
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Case Report</button>

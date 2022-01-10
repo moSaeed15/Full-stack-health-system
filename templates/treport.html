@@ -67,7 +67,7 @@
       <h2>Report maintenance</h2>
       <div class="form-control">
         <label for="Machine ID">Machine ID</label>
-        <select style='width:100%' name="machid">
+        <select style='width:100%' name="machid" required>
            {% for i in range(x) %}
            <option value = "{{data[i]}}">{{data[i+x]}}</option>
            {% endfor %}
@@ -75,7 +75,7 @@
       </div>
       <div class ="form-control">
         <label for="fix">Fix</label>
-        <input style='width:100%' name ='fix' type='text' placeholder='Enter the fix description' />
+        <input style='width:100%' name ='fix' type='text' placeholder='Enter the fix description'  required/>
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Report maintenance</button>

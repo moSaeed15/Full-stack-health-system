@@ -83,24 +83,25 @@
 
       <div class="form-control">
         <label for="Doctor machine">Type:</label>
-        <select name="Mtype">
+        <select name="Mtype" required >
           <option value="X-ray">X-ray</option>
           <option value="CT">CT</option>
           <option value="MRI">MRI</option>
           <option value="Ultrasound">Ultrasound</option>
         </select>
         <label for="machine model number">Model number:</label>
-        <input type="text" name="mnumber" placeholder=" Model number" />
+        <input type="text" name="mnumber" placeholder=" Model number"  required/>
       </div>
 
       <div class="form-control">
         <label for="machine check day">Check day:</label>
-        <input type="tel" name="cday" placeholder="Machine Check day" />
+        <input type="tel" name="cday" placeholder="Machine Check day"  required/>
         <label for="machine purchase date"> Purchase date:</label>
         <input
           type="date"
           name="purdate"
-          placeholder=" Machine purchase date"
+          placeholder=" Machine purchase date" 
+          required
         />
       </div>
       <div class="form-control">
