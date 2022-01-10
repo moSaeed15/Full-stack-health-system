@@ -96,7 +96,6 @@ mycursor.execute('''
     LName VARCHAR(255) NOT NULL,
     SSN INT NOT NULL UNIQUE,
     GENDER VARCHAR(45) NOT NULL,
-    SPEC VARCHAR(45) NOT NULL,
     PNUMBER INT NOT NULL,
     EMAIL VARCHAR(255) NOT NULL,
     BDATE DATE NOT NULL,
@@ -135,6 +134,7 @@ mycursor.execute('''
     PURDATE DATE NOT NULL,
     CHECKDAYS INT NOT NULL,
     IN_USE TINYINT NOT NULL,
+    USES INT NOT NULL DEFAULT 0,
     PRIMARY KEY(ID)
     );
 ''')
@@ -158,6 +158,7 @@ mycursor.execute('''
     NAME VARCHAR(255),
     MACHINE_ID INT NOT NULL UNIQUE,
     HOURS INT NOT NULL,
+    AVAILABLE BOOL NOT NULL DEFAULT '1',
     PRIMARY KEY(ID),
     CONSTRAINT FK_MACHINE
         FOREIGN KEY (MACHINE_ID)
@@ -243,6 +244,35 @@ mycursor.execute('''
     CONSTRAINT FK_ROOMID
         FOREIGN KEY(ROOM_ID)
         REFERENCES Rooms(ID)
+    );
+''')
+mydb.commit()
+mycursor.execute('''
+    CREATE TABLE IF NOT EXISTS MIssues (
+    MACH_ID INT NOT NULL,
+    TECH_ID INT,
+    ISSUE TINYTEXT,
+    CONSTRAINT FK_TECH
+        FOREIGN KEY(TECH_ID)
+        REFERENCES Technicians(ID),
+    CONSTRAINT FK_MACH1
+        FOREIGN KEY(MACH_ID)
+        REFERENCES Machines(ID)
+    );
+''')
+mydb.commit()
+mycursor.execute('''
+    CREATE TABLE IF NOT EXISTS Issue_History (
+    MACH_ID INT NOT NULL,
+    TECH_ID INT,
+    ISSUE TINYTEXT,
+    FIX TINYTEXT,
+    CONSTRAINT FK_TECH1
+        FOREIGN KEY(TECH_ID)
+        REFERENCES Technicians(ID),
+    CONSTRAINT FK_MACH2
+        FOREIGN KEY(MACH_ID)
+        REFERENCES Machines(ID)
     );
 ''')
 mydb.commit()

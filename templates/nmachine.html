@@ -50,25 +50,20 @@
       messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif %} {%
       endwith %}
     </h2>
-    <form id="form" class="form">
-      <h2>Machine Report</h2>
+    <form id="form" class="form" action='/nurse/report-machine' method='POST'>
+      <h2>Machine Issue Report</h2>
 
       <div class="form-control">
         <label for="Machine ID">Machine ID</label>
-        <input type="tel" name="MID" placeholder=" Machine ID" />
-        <label for="Room ID">Room ID:</label>
-        <input type="text" name="Mroom" placeholder="Room ID" />
-      </div>
-      <div class="form-control">
-        <label for="Machine Issue">Issue reported</label>
-        <input type="tel" name="Missue" placeholder=" Machine issue" />
-        <label for="Machine type">Machine type</label>
-        <select name="Mtype">
-          <option value="X-ray">X-ray</option>
-          <option value="CT">CT</option>
-          <option value="MRI">MRI</option>
-          <option value="Ultrasound">Ultrasound</option>
+        <select style='width:100%' name="machid">
+           {% for i in data.res %}
+           <option value = "{{i}}">{{i}}</option>
+           {% endfor %}
         </select>
+      </div>
+      <div class ="form-control">
+        <label for="issue">Issue</label>
+        <input style='width:100%' name ='issue' type='text' placeholder='Enter the issues' />
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Machine Report</button>

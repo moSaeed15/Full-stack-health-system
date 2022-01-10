@@ -1,0 +1,86 @@
+{% extends 'doctor.html' %}
+
+<!-- Nurse part -->
+{% block body %}
+
+<div class="content">
+  <nav class="sidebar">
+    <ul class="side-nav">
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/technician" class="side-nav__link">
+          <img
+            class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="tech-image"
+          />
+
+          <span>Unassigned Issues</span>
+        </a>
+      </li>
+      <li class="side-nav__item side-nav__item--active">
+        <a href="http://127.0.0.1:5000/technician/treport" class="side-nav__link">
+          <img
+            class="side-nav__img"
+            src="../static/maintenance.svg"
+            alt="maintenance-image"
+          />
+
+          <span>Report maintenance</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/technician/checks"
+          class="side-nav__link"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/calendar.svg"
+            alt="report-image"
+          />
+          <span>Report regular checks </span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a
+          href="http://127.0.0.1:5000/technician/issues"
+          class="side-nav__link"
+        >
+          <img
+            class="side-nav__img"
+            src="../static/mri-patient-svgrepo-com.svg"
+            alt="issues-image"
+          />
+          <span> View machine issues </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <h2 style="text-align: center">
+      {% with messages = get_flashed_messages(with_categories=false) %} {% if
+      messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif %} {%
+      endwith %}
+    </h2>
+    <form action="/technician/treport" method="post" id="form" class="form">
+      <h2>Report maintenance</h2>
+      <div class="form-control">
+        <label for="Machine ID">Machine ID</label>
+        <select style='width:100%' name="machid">
+           {% for i in range(x) %}
+           <option value = "{{data[i]}}">{{data[i+x]}}</option>
+           {% endfor %}
+          </select>
+      </div>
+      <div class ="form-control">
+        <label for="fix">Fix</label>
+        <input style='width:100%' name ='fix' type='text' placeholder='Enter the fix description' />
+      </div>
+      <div class="form-control">
+        <button class="btn" type="submit">Report maintenance</button>
+      </div>
+    </form>
+  </main>
+  {% endblock %}
+</div>

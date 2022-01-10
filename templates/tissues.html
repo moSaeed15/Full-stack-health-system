@@ -10,6 +10,17 @@
         <a href="http://127.0.0.1:5000/technician" class="side-nav__link">
           <img
             class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="tech-image"
+          />
+
+          <span>Unassigned Issues</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/technician/treport" class="side-nav__link">
+          <img
+            class="side-nav__img"
             src="../static/maintenance.svg"
             alt="maintenance-image"
           />
@@ -50,21 +61,19 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Machine ID</th>
-          <th>Machine type</th>
-          <th>Machine model number</th>
-          <th>Issue reported</th>
-          <th>Room ID</th>
+            {% for rh in data.rowheaders %}
+            <th>{{rh}}</th>
+            {% endfor %}
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>MRI</td>
-          <td>X2B</td>
-          <td>Broken Screen</td>
-          <td>2</td>
+        {% for x in data.res %}
+        <tr class="active-row">
+            {% for m in x %}
+            <td>{{m}}</td>
+            {% endfor %}
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </main>

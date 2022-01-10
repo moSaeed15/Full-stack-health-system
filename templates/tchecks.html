@@ -10,6 +10,17 @@
         <a href="http://127.0.0.1:5000/technician" class="side-nav__link">
           <img
             class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="tech-image"
+          />
+
+          <span>Unassigned Issues</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/technician/treport" class="side-nav__link">
+          <img
+            class="side-nav__img"
             src="../static/maintenance.svg"
             alt="maintenance-image"
           />
@@ -52,25 +63,20 @@
       messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif %} {%
       endwith %}
     </h2>
-    <form action="" method="post" id="form" class="form">
+    <form action="/technician/checks" method="POST" id="form" class="form">
       <h2>Report Check</h2>
 
       <div class="form-control">
-        <label for="check date">Check date</label>
-        <input type="date" name="Cdate" placeholder="Check date" />
-        <label for="Machine ID">Machine ID:</label>
-        <input type="tel" name="MID" placeholder="Enter Machine ID" />
+        <label for="Machine ID">Machine ID</label>
+        <select style='width:100%' name="machid">
+           {% for i in range(x) %}
+           <option value = "{{data[i]}}">{{data[i+x]}}</option>
+           {% endfor %}
+          </select>
       </div>
-      <div class="form-control">
-        <label for="Check time">Check time</label>
-        <input type="time" name="Ctime" placeholder="Check time" />
-        <label for="Machine type">Machine type:</label>
-        <select name="Mtype">
-          <option value="X-ray">X-ray</option>
-          <option value="CT">CT</option>
-          <option value="MRI">MRI</option>
-          <option value="Ultrasound">Ultrasound</option>
-        </select>
+      <div class ="form-control">
+        <label for="result">Machine Check Result</label>
+        <input style='width:100%' name ='result' type='text' placeholder='Enter the fix description' />
       </div>
       <div class="form-control">
         <button class="btn" type="submit">Report check</button>

@@ -6,8 +6,19 @@
 <div class="content">
   <nav class="sidebar">
     <ul class="side-nav">
-      <li class="side-nav__item side-nav__item--active">
+    <li class="side-nav__item side-nav__item--active">
         <a href="http://127.0.0.1:5000/technician" class="side-nav__link">
+          <img
+            class="side-nav__img"
+            src="../static/technician-with-helmet-svgrepo-com.svg"
+            alt="tech-image"
+          />
+
+          <span>Unassigned Issues</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="http://127.0.0.1:5000/technician/treport" class="side-nav__link">
           <img
             class="side-nav__img"
             src="../static/maintenance.svg"
@@ -40,7 +51,7 @@
             src="../static/mri-patient-svgrepo-com.svg"
             alt="issues-image"
           />
-          <span> View machine issues </span>
+          <span> View my assignemnts </span>
         </a>
       </li>
     </ul>
@@ -52,27 +63,17 @@
       messages %} {% for m in messages %} {{ m }} {% endfor %} {% endif %} {%
       endwith %}
     </h2>
-    <form action="" method="post" id="form" class="form">
-      <h2>Report maintenance</h2>
+    <form action="/technician" method="post" id="form" class="form">
+      <h2>Unassigned Issues</h2>
       <div class="form-control">
-        <label for="maintenance date">Maintenance date</label>
-        <input type="date" name="Mdata" placeholder="Maintenance date" />
-        <label for="Machine ID">Machine ID:</label>
-        <input type="tel" name="MID" placeholder="Enter Machine ID" />
-      </div>
-      <div class="form-control">
-        <label for="maintenance result">Maintenance result</label>
-        <input type="tel" name="Mresult" placeholder="Maintenance result" />
-        <label for="Machine type">Machine type:</label>
-        <select name="Mtype">
-          <option value="X-ray">X-ray</option>
-          <option value="CT">CT</option>
-          <option value="MRI">MRI</option>
-          <option value="Ultrasound">Ultrasound</option>
+        <select style="width:100%" name="machid">
+          {% for i in range(x) %}
+          <option value="{{data[i]}}">{{data[i+x]}}</option>
+          {% endfor %}
         </select>
       </div>
       <div class="form-control">
-        <button class="btn" type="submit">Report maintenance</button>
+        <button class="btn" type="submit">Take on</button>
       </div>
     </form>
   </main>

@@ -4,50 +4,6 @@
 {% block body %}
 
 <div class="content">
-  <nav class="sidebar">
-    <ul class="side-nav">
-      <li class="side-nav__item side-nav__item--active">
-        <a href="http://127.0.0.1:5000/patient" class="side-nav__link" id="1">
-          <img
-            class="side-nav__img"
-            src="../static/calendar.svg"
-            alt="calendar-image"
-          />
-          <span>Reserve scan</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/patient/patient-scan-history"
-          class="side-nav__link"
-          id="3"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/medical-history.svg"
-            alt="history-image"
-          />
-
-          <span>View scan history</span>
-        </a>
-      </li>
-      <li class="side-nav__item">
-        <a
-          href="http://127.0.0.1:5000/patient/view-reservation"
-          class="side-nav__link"
-          id="4"
-        >
-          <img
-            class="side-nav__img"
-            src="../static/reservation-view.svg"
-            alt="report-image"
-          />
-          <span>View reservations:</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-
   <main class="main">
     <h2 style="text-align: center">
       {% with messages = get_flashed_messages(with_categories=false) %} {% if
@@ -60,7 +16,7 @@
       id="form"
       class="form"
     >
-      <h2>Reserve scan</h2>
+      <h2>Patient Account Registration</h2>
       <div class="form-control">
         <label for="fname">First Name</label>
         <input type="text" name="fname" placeholder="First Name" />

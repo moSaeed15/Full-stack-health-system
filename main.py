@@ -1,3 +1,4 @@
+from warnings import resetwarnings
 from flask import Flask, render_template, request, redirect, flash, url_for
 from flask.templating import render_template
 import mysql.connector
@@ -34,7 +35,6 @@ def signin():
 		if data is not None:
 			global typeL
 			_,_,password,typeL=data
-			print(password)
 			if password==passwd:
 				global isLoggedIn
 				global currentuser
@@ -168,11 +168,9 @@ def patient():
 	if request.method == 'POST':
 		scantype = request.form['Mtype']
 		scandate = request.form['scandate']
-		print(type(scandate))
 
 		sql1 = 'SELECT ID FROM Users WHERE Username=%s'
 		global currentuser
-		print(currentuser)
 		val1 = (currentuser,)
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
@@ -211,7 +209,6 @@ def admin():
 		val1 = (username,)
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
-		print('ID IS EQUAL TO %s', id)
 		sql = "INSERT INTO doctors (SSN, FName, MInit, LName, ADDRESS, PNUMBER,  GENDER, BDATE, ID, EMAIL, HOURS) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 		val = (ssn, fname, minit, lname, address, pnumber, gender, bdate, id[0], email, hours)    
 		mycursor.execute(sql, val)
@@ -243,7 +240,6 @@ def addnurse():
 		val1 = (username,)
 		mycursor.execute(sql1, val1)
 		id = mycursor.fetchone()
-		print('ID IS EQUAL TO', id)
 		sql = 'INSERT INTO nurses (FName, MInit, LName, SSN, BDATE, ADDRESS, PNUMBER, EMAIL, GENDER, ID, HOURS) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
 		val = (fname, minit, lname, ssn, bdate, address, pnumber, email, gender, id[0], hours)
 		mycursor.execute(sql, val)
@@ -356,9 +352,7 @@ def doctor():
 		''')
 		val = mycursor.fetchall()
 		data = val + res
-		print(type(data))
 		x = len(val)
-		print(x)
 		return render_template('doctor.html', data=data, x=int(x))
 	
 @app.route('/doctor/patient-list', methods = ['POST', 'GET'])
@@ -376,7 +370,6 @@ def dview():
 	ORDER BY DATE ASC''') 
 	rowheaders = ['First Name', 'Last Name', 'Scan Type', 'Scan Date']
 	res = mycursor.fetchall()
-	print(rowheaders, res, currentuser)
 	data = {
 		'rowheaders': rowheaders,
 		'res': res}
@@ -419,9 +412,7 @@ def nurse():
 		''')
 		val = mycursor.fetchall()
 		data = val + res
-		print(type(data))
 		x = len(val)
-		print(x)
 		return render_template('nurse.html', data=data, x=int(x))   
 
 @app.route('/nurse/patient-list')
@@ -440,16 +431,35 @@ def nview():
 	ORDER BY DATE ASC''') 
 	rowheaders = ['First Name', 'Last Name', 'Scan Type', 'Scan Date']
 	res = mycursor.fetchall()
-	print(rowheaders, res, currentuser)
 	data = {
 		'rowheaders': rowheaders,
 		'res': res}
 	return render_template('nview.html', data = data)    
 		
-@app.route('/nurse/report-machine')
+@app.route('/nurse/report-machine', methods = ['POST', 'GET'])
 @is_logged_inn
 def nmachine():
-	return render_template('nmachine.html') 
+	if request.method == 'POST':
+		machid = request.form['machid']
+		issue = request.form['issue']
+		machid = int(re.findall(r'\d+', machid)[0])
+		mycursor.execute(f'''INSERT INTO MIssues(MACH_ID, ISSUE) VALUES ({machid}, '{issue}')''')
+		mydb.commit()
+		mycursor.execute(f"UPDATE Rooms SET AVAILABLE = '0' WHERE MACHINE_ID = {machid}")
+		mydb.commit()
+		return redirect(url_for('nmachine'))
+	else:
+		mycursor.execute(f'''
+			SELECT Machines.ID, Machines.TYPE 
+			FROM Machines 
+			JOIN Rooms ON Machines.ID = Rooms.MACHINE_ID 
+			WHERE Rooms.AVAILABLE = '1'
+		''')
+		res = mycursor.fetchall()
+		data = {
+			'res':res
+		}
+		return render_template('nmachine.html', data=data) 
 
 
 
@@ -470,7 +480,6 @@ def phistory():
 	ORDER BY DATE ASC''')
 	rowheaders = ['Dr First Name', 'Dr Last Name', 'Nurse First Name', 'Nurse Last Name','Scan Type', 'Scan Date']
 	res = mycursor.fetchall()
-	print(rowheaders, res, currentuser)
 	data = {
 		'rowheaders': rowheaders,
 		'res': res}
@@ -493,28 +502,126 @@ def preservation():
 	ORDER BY DATE ASC''') 
 	rowheaders = ['Dr First Name', 'Dr Last Name', 'Nurse First Name', 'Nurse Last Name','Scan Type', 'Scan Date']
 	res = mycursor.fetchall()
-	print(rowheaders, res, currentuser)
 	data = {
 		'rowheaders': rowheaders,
 		'res': res}
 	return render_template('preservation.html', data = data) 
 
 
- 
-@app.route('/technician')
+
+@app.route('/technician', methods = ['POST', 'GET'])
 @is_logged_int
 def technician():
-	return render_template('technician.html')
+	if request.method == 'POST':
+		machid = request.form['machid']
+		machid = int(re.findall(r'\d+', machid)[0])
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM Users WHERE Username='{currentuser}'")
+		techid= mycursor.fetchone()
+		mycursor.execute(f"UPDATE MIssues SET TECH_ID = '{techid[0]}' WHERE MACH_ID = {machid}")
+		mydb.commit()
+		return redirect(url_for('technician'))
+	else:
+		mycursor.execute(f"SELECT Machines.ID, Machines.TYPE, MIssues.ISSUE FROM Machines JOIN MIssues ON Machines.ID = MIssues.MACH_ID WHERE MIssues.TECH_ID IS NULL")
+		res = mycursor.fetchall()
+		mycursor.execute(f"SELECT Machines.ID FROM Machines JOIN MIssues ON Machines.ID = MIssues.MACH_ID WHERE MIssues.TECH_ID IS NULL")
+		val = mycursor.fetchall()
+		data = val + res
+		x = len(val)
+		return render_template('technician.html', data=data, x=x)
 
-@app.route('/technician/checks')
+@app.route('/technician/treport', methods=['POST', 'GET'])
+@is_logged_int
+def treport():
+	if request.method == 'POST':
+		machid = request.form['machid']
+		machid = int(re.findall(r'\d+', machid)[0])
+		fix = request.form['fix']
+		mycursor.execute(f'''
+			INSERT INTO Issue_History(MACH_ID, TECH_ID, ISSUE)
+			SELECT MACH_ID, TECH_ID, ISSUE FROM MIssues
+			WHERE MIssues.ID NOT IN (SELECT ID FROM Issue_History)
+		''')
+		mydb.commit()
+		mycursor.execute(f"DELETE FROM MIssues WHERE MACH_ID = {machid}")
+		mydb.commit()
+		mycursor.execute(f"UPDATE Rooms SET AVAILABLE = '1' WHERE MACHINE_ID = {machid}")
+		mydb.commit()
+		mycursor.execute(f"UPDATE Issue_History SET FIX = '{fix}' WHERE MACH_ID = {machid}")
+		mydb.commit()
+		return redirect(url_for('treport'))
+	else:
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM Users WHERE Username='{currentuser}'")
+		techid= mycursor.fetchone()
+		mycursor.execute(f'''
+			SELECT Machines.ID, Machines.TYPE, MIssues.ISSUE
+			FROM MIssues
+			JOIN Machines ON MIssues.MACH_ID = Machines.ID
+			WHERE MIssues.TECH_ID = {techid[0]}
+		''')
+		res = mycursor.fetchall()
+		mycursor.execute(f'''
+			SELECT Machines.ID, Machines.TYPE, MIssues.ISSUE
+			FROM MIssues
+			JOIN Machines ON MIssues.MACH_ID = Machines.ID
+			WHERE MIssues.TECH_ID = {techid[0]}
+		''')
+		val = mycursor.fetchall()
+		data = val+res
+		x = len(val)
+		return render_template('treport.html', data=data, x=x)
+
+@app.route('/technician/checks', methods = ['POST', 'GET'])
 @is_logged_int
 def tchecks():
-	return render_template('tchecks.html')     
-
+	if request.method == 'POST':
+		machid = request.form['machid']
+		machid = int(re.findall(r'\d+', machid)[0])
+		result = request.form['result']
+		global currentuser
+		mycursor.execute(f"SELECT ID FROM Users WHERE Username='{currentuser}'")
+		techid= mycursor.fetchone()
+		mycursor.execute(f"UPDATE Machines SET USES = 0 WHERE ID = {machid}")
+		mydb.commit()
+		mycursor.execute(f"INSERT INTO Issue_History(MACH_ID, TECH_ID, ISSUE, FIX) VALUES({machid}, {techid[0]}, 'Regular Check', '{result}')")
+		mydb.commit()
+		return redirect(url_for('techecks'))
+	else:
+		mycursor.execute(f'''
+			SELECT ID
+			FROM Machines
+			WHERE USES >= 15
+		''')
+		val = mycursor.fetchall()
+		mycursor.execute(f'''
+			SELECT ID, TYPE
+			FROM Machines
+			WHERE USES >= 15
+		''')
+		res = mycursor.fetchall()
+		data = val + res
+		x = len(val)
+		return render_template('tchecks.html', data=data, x=x)
 @app.route('/technician/issues')
 @is_logged_int
 def tissues():
-	return render_template('tissues.html') 
+	global currentuser
+	mycursor.execute(f"SELECT ID FROM Users WHERE Username='{currentuser}'")
+	techid= mycursor.fetchone()
+	mycursor.execute(f'''
+		SELECT Machines.ID, Machines.TYPE, MIssues.ISSUE
+		FROM MIssues
+		JOIN Machines ON MIssues.MACH_ID = Machines.ID
+		WHERE MIssues.TECH_ID = {techid[0]}
+	''')
+	res = mycursor.fetchall()
+	rowheaders = ['Machine ID', 'Machine Type', 'Issue Reported']
+	data = {
+		'res':res,
+		'rowheaders':rowheaders
+	}
+	return render_template('tissues.html', data = data) 
 
 @app.route('/about')
 def about():
