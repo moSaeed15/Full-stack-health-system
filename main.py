@@ -3,9 +3,9 @@ from flask.templating import render_template
 import mysql.connector
 from datetime import datetime
 from functools import wraps
-# import pandas as pd
+import pandas as pd
 import numpy as np
-# from scanassgn import scanassign
+from scanassgn import scanassign
 import re
 
 isLoggedIn=False

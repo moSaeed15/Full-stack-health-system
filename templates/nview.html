@@ -60,28 +60,19 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Patient ID</th>
-              <th>Patient Fname</th>
-              <th>Patient minit</th>
-              <th>Patient Lname</th>
-              <th>Room ID</th>
+              {% for rh in data.rowheaders %}
+              <th>{{rh}}</th>
+              {% endfor %}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mohammed</td>
-              <td>E</td>
-              <td>Kamel</td>
-              <td>2</td>
-            </tr>
+              {% for x in data.res %}
             <tr class="active-row">
-              <td>2</td>
-              <td>Ahmed</td>
-              <td>E</td>
-              <td>gamal</td>
-              <td>3</td>
+              {% for m in x %}
+              <td>{{m}}</td>
+              {% endfor %}
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </main>
