@@ -12,7 +12,7 @@
     <title>Radiology Department</title>
   </head>
   <body>
-    {% include 'includes/_navbar.html' %}
+    {% include 'includes/_loggedinnavbar.html' %}
     <div class="content">
       {% include 'includes/_doctorsidebar.html' %}
       <main class="main">
@@ -22,7 +22,7 @@
               {% for rh in data.rowheaders %}
               <th>{{rh}}</th>
               {% endfor %}
-            </tr> 
+            </tr>
           </thead>
           <tbody>
             {% for x in data.res %}
