@@ -4,6 +4,9 @@ from flask.templating import render_template
 import mysql.connector
 from datetime import datetime
 import pandas as pd
+import numpy as np
+
+
 
 def scanassign(scandate, scantype, id):
 	scandate = scandate.replace('-','')
@@ -18,7 +21,7 @@ def scanassign(scandate, scantype, id):
 	extradr = -1; extranur = -1; extraroom = -1
 	
 	#doctors
-	sql = f'SELECT * FROM DoctorHours WHERE DATE={scandate} ORDER BY DR_ID DESC LIMIT 1'
+	sql = f"SELECT * FROM DoctorHours WHERE DATE='{scandate}' ORDER BY DR_ID DESC LIMIT 1"
 	mycursor.execute(sql)
 	drhrs = mycursor.fetchone()
 	mycursor.execute("SELECT ID, HOURS FROM Doctors ORDER BY ID")
@@ -26,18 +29,26 @@ def scanassign(scandate, scantype, id):
 	df = pd.DataFrame(drs)
 	if(drhrs):
 		df1 = df[1].where(df[0] == drhrs[1])
-		if int(drhrs[2]) < int(df1[0]):
+		mycursor.execute("SELECT COUNT(DR_ID) FROM DoctorHours")
+		drc = mycursor.fetchall()
+		if (drc[0][0] == 0):
+			i = 0
+		else:
+			i = drc[0][0] - 1
+		if drhrs[2] < df1[i]:
 			drid = drhrs[1]
 			extradr = 0
+			print('CHEECKKK1')
 		else:
+			print('CHEECKKK2')
 			extradr = 1
 			mycursor.execute(f"SELECT ID FROM Doctors WHERE ID > {drhrs[1]} ORDER BY ID LIMIT 1")
 			drid = mycursor.fetchone()
 	else:
+		print('CHEECKKK3')
 		extradr = 1
 		mycursor.execute("SELECT ID FROM Doctors")
 		drid = mycursor.fetchone()
-	print("driD", drid)
 
 
 	#nurses
@@ -48,7 +59,13 @@ def scanassign(scandate, scantype, id):
 	df = pd.DataFrame(nur)
 	if (nurhrs):
 		df1 = df[1].where(df[0] == nurhrs[1])
-		if int(nurhrs[2]) < int(df1[0]):
+		mycursor.execute("SELECT COUNT(NUR_ID) FROM NurseHours")
+		nurc = mycursor.fetchall()
+		if (nurc[0][0] == 0):
+			i = 0
+		else:
+			i = nurc[0][0] - 1
+		if int(nurhrs[2]) < df1[i]:
 			nurid = nurhrs[1]
 			extranur = 0
 		else:
@@ -71,37 +88,28 @@ def scanassign(scandate, scantype, id):
 		ORDER BY Rooms.ID''')
 	rooms = mycursor.fetchall()
 	df = pd.DataFrame(rooms)
-	print(df)
 	if (roomhrs):
 		df1 = df[1].where(df[0] == roomhrs[1])
-		if(isinstance(df1[0], int)):
-			if int(roomhrs[2]) < int(df1[0]):
-				roomid = roomhrs[1]
-				extraroom = 0
-				print('CHEEECKKKK111')
-			else:
-				print('CHEEECKKKK222')
-				extraroom = 1
-				mycursor.execute(f'''
-					SELECT Rooms.ID, Rooms.HOURS 
-					FROM Rooms 
-					JOIN Machines ON Rooms.MACHINE_ID=Machines.ID 
-					WHERE Machines.TYPE="{scantype}" AND Rooms.ID > {roomhrs[1]}
-					ORDER BY Rooms.ID
-				''')
-				roomid = mycursor.fetchone
+		mycursor.execute("SELECT COUNT(ROOM_ID) FROM RoomHours")
+		roomc = mycursor.fetchall()
+		if (roomc[0][0] == 0):
+			i = 0
 		else:
-			print('CHEEECKKKK333')
+			i = roomc[0][0] - 1
+		if int(roomhrs[2]) < df1[i]:
+			roomid = roomhrs[1]
+			extraroom = 0
+		else:
 			extraroom = 1
 			mycursor.execute(f'''
-			SELECT Rooms.ID 
-			FROM Rooms 
-			JOIN Machines ON Rooms.MACHINE_ID=Machines.ID 
-			WHERE Machines.TYPE="{scantype}" 
-			ORDER BY Rooms.ID''')
-			roomid= mycursor.fetchone()
+				SELECT Rooms.ID, Rooms.HOURS 
+				FROM Rooms 
+				JOIN Machines ON Rooms.MACHINE_ID=Machines.ID 
+				WHERE Machines.TYPE="{scantype}" AND Rooms.ID > {roomhrs[1]}
+				ORDER BY Rooms.ID
+			''')
+			roomid = mycursor.fetchone()
 	else:
-		print('CHEEECKKKK444')
 		extraroom = 1
 		mycursor.execute(f'''
 		SELECT Rooms.ID 
@@ -132,7 +140,7 @@ def scanassign(scandate, scantype, id):
 			sql = 'INSERT INTO DoctorHours(DATE, DR_ID, HOURS_USED) VALUES (%s, %s, %s)'
 			val = (scandate, int(drid), 1)
 			mycursor.execute(sql, val)
-			mydb.commit()
+			mydb.commit
 		elif (extradr == 0):
 			mycursor.execute(f"UPDATE DoctorHours SET HOURS_USED = {drhrs[2] + 1}")
 			mydb.commit()
