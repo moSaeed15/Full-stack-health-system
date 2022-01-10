@@ -65,26 +65,19 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Reservation date</th>
-              <th>Reservation type</th>
-              <th>Room id</th>
-              <th>Reservation Time</th>
+              {% for rh in data.rowheaders %}
+              <th>{{rh}}</th>
+              {% endfor %}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>15/1/2021</td>
-              <td>X-Ray scan</td>
-              <td>1</td>
-              <td>5 PM</td>
+              {% for x in data.res %}
+            <tr class="active-row">
+              {% for m in x %}
+              <td>{{m}}</td>
+              {% endfor %}
             </tr>
-            <!-- <tr>
-              <td>2</td>
-              <td>Ahmed</td>
-              <td>E</td>
-              <td>gamal</td>
-              <td>3</td>
-            </tr> -->
+            {% endfor %}
           </tbody>
         </table>
       </main>
