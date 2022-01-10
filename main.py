@@ -15,7 +15,7 @@ currentuser=''
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	username = 'root',
-	passwd = '@Hm$d_2001',
+	passwd = '0504632240',
 	database = 'radiology')
 mycursor = mydb.cursor(buffered =True)
 
