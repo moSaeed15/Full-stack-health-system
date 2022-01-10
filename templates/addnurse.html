@@ -2,7 +2,7 @@
 <div class="content">
   <nav class="sidebar">
     <ul class="side-nav">
-      <li class="side-nav__item ">
+      <li class="side-nav__item">
         <a href="http://127.0.0.1:5000/admin" class="side-nav__link">
           <img
             class="side-nav__img"
@@ -69,7 +69,12 @@
   </nav>
 
   <main class="main">
-    <form id="form" class="form" action = 'http://127.0.0.1:5000/admin/add-nurse' method = 'POST'>
+    <form
+      id="form"
+      class="form"
+      action="http://127.0.0.1:5000/admin/add-nurse"
+      method="POST"
+    >
       <h2>Add Nurse</h2>
       <div class="name">
         <label for="fname">First name:</label>
@@ -94,13 +99,13 @@
           placeholder="Enter Last Name"
         />
       </div>
-      <div class="form-control">
+      <div class="name">
         <label for="nurse SSN">SSN:</label>
         <input type="tel" name="SSN" placeholder="Enter nurse SSN" />
         <label for="gender">Gender:</label>
         <input type="text" name="gender" placeholder="Enter gender" />
-        <label for-"hours">Hours</label>
-        <input type="numebr" name='hours' placeholder='Enter hours on job' />
+        <label for="hours">Hours</label>
+        <input type="numebr" name="hours" placeholder="Enter hours on job" />
       </div>
       <div class="form-control">
         <label for="nurse bdate">Bdate:</label>
@@ -119,7 +124,7 @@
         <label for="nurse email">email:</label>
         <input type="email" name="email" placeholder="Enter nurse email" />
       </div>
-      <div class = "form-control">
+      <div class="form-control">
         <label for="usernmae">Username: </label>
         <input type="text" name="username" placeholder=" Username" />
         <label for="password">Password:</label>

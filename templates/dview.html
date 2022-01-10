@@ -14,7 +14,37 @@
   <body>
     {% include 'includes/_loggedinnavbar.html' %}
     <div class="content">
-      {% include 'includes/_doctorsidebar.html' %}
+      <nav class="sidebar">
+        <ul class="side-nav">
+          <li class="side-nav__item side-nav__item--active">
+            <a
+              href="http://127.0.0.1:5000/doctor"
+              class="side-nav__link"
+              id="4"
+            >
+              <img
+                class="side-nav__img"
+                src="../static/report-svgrepo-com.svg"
+                alt="technician-image"
+              />
+              <span>Report case/scan</span>
+            </a>
+          </li>
+          <li class="side-nav__item side-nav__item--active">
+            <a
+              href="http://127.0.0.1:5000/doctor/patient-list"
+              class="side-nav__link"
+            >
+              <img
+                class="side-nav__img"
+                src="../static/patient-svgrepo-com.svg"
+                alt="Patient-image"
+              />
+              <span>View patient list</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
       <main class="main">
         <table class="table">
           <thead>
